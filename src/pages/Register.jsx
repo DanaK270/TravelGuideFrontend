@@ -12,6 +12,7 @@ const Register = () => {
     role: 'user' // default is user
   }
   const [formValues, setFormValues] = useState(initState)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
@@ -19,19 +20,27 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await RegisterUser({
-      name: formValues.name,
-      email: formValues.email,
-      password: formValues.password,
-      role: formValues.role
-    })
-    setFormValues(initState)
-    navigate('/signin')
+    try {
+      await RegisterUser({
+        name: formValues.name,
+        email: formValues.email,
+        password: formValues.password,
+        role: formValues.role
+      })
+      setFormValues(initState)
+      navigate('/signin')
+    } catch (err) {
+      setErrorMessage(
+        'Registration failed! Please try again with different credintials'
+      )
+    }
   }
 
   return (
     <div>
       <div>
+        <h2>Create Account</h2>
+        {errorMessage && <p>{errorMessage}</p>}
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name">Name</label>
@@ -93,8 +102,9 @@ const Register = () => {
           <button
             disabled={
               !formValues.email ||
-              (!formValues.password &&
-                formValues.confirmPassword === formValues.password)
+              !formValues.password ||
+              (formValues.password &&
+                formValues.confirmPassword != formValues.password)
             }
           >
             Sign Up

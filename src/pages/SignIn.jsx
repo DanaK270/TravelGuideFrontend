@@ -6,6 +6,7 @@ const SignIn = ({ setUser }) => {
   let navigate = useNavigate()
   const initState = { email: '', password: '' }
   const [formValues, setFormValues] = useState({ email: '', password: '' })
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
@@ -13,15 +14,21 @@ const SignIn = ({ setUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const payload = await SignInUser(formValues)
-    setFormValues(initState)
-    setUser(payload)
-    navigate('/')
+    try {
+      const payload = await SignInUser(formValues)
+      setFormValues(initState)
+      setUser(payload)
+      navigate('/')
+    } catch (err) {
+      setErrorMessage('wrong credintilas, sign in falied!')
+    }
   }
 
   return (
     <div>
       <div>
+        <h2>Sign In</h2>
+        {errorMessage && <p>{errorMessage}</p>}
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email">Email</label>
