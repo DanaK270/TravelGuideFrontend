@@ -13,10 +13,8 @@ const FlightTracking = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(
-        `http://api.aviationstack.com/v1/flights?access_key=${process.env.REACT_APP_AVIATION_STACK_API_KEY}&flight_iata=${flightNumber}`
-      );
-      const flight = response.data.data[0];
+      const response = await axios.get(`/flight/track?flightNumber=${flightNumber}`);
+      const flight = response.data;
       if (flight) {
         setFlightData(flight);
         setError('');
@@ -24,7 +22,7 @@ const FlightTracking = () => {
         setError('Flight not found');
       }
     } catch (err) {
-      console.error(err);
+      console.error('Error fetching flight data:', err);
       setError('Error fetching flight data');
     }
   };
@@ -54,8 +52,12 @@ const FlightTracking = () => {
           <p><strong>Flight Number:</strong> {flightData.flight.iata}</p>
           <p><strong>Airline:</strong> {flightData.airline.name}</p>
           <p><strong>Status:</strong> {flightData.flight_status}</p>
-          <p><strong>Departure:</strong> {flightData.departure.airport} at {flightData.departure.scheduled}</p>
-          <p><strong>Arrival:</strong> {flightData.arrival.airport} at {flightData.arrival.scheduled}</p>
+          <p>
+            <strong>Departure:</strong> {flightData.departure.airport} at {flightData.departure.scheduled}
+          </p>
+          <p>
+            <strong>Arrival:</strong> {flightData.arrival.airport} at {flightData.arrival.scheduled}
+          </p>
         </div>
       )}
     </section>

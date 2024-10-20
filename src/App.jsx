@@ -57,7 +57,7 @@ const App = () => {
           <Route path="/community-chat" element={<CommunityChat />} />
           <Route path="/user-blog" element={<UserBlog />} />
           <Route path="/flight-tracking" element={<FlightTracking />} />
-          {/* New Route */}
+       
         </Routes>
       </main>
     </div>
