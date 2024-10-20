@@ -1,48 +1,54 @@
-import { useState, useEffect } from 'react'
-import { Route, Routes } from 'react-router'
-// import Nav from './components/Nav'
-import Register from './pages/Register'
-import SignIn from './pages/SignIn'
-// import Feed from './pages/Feed'
-import Home from './pages/Home'
-import './App.css'
-
-import { CheckSession } from './services/Auth'
+import { useState, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Register from './pages/Register';
+import SignIn from './pages/SignIn';
+import Home from './pages/Home';
+import AddCountry from './pages/AddCountry';
+import AddHotel from './pages/AddHotel';
+import AddPlace from './pages/AddPlace';
+import AboutUs from './pages/AboutUs';
+import Contacts from './pages/Contacts';
+import Gallery from './pages/Gallery';
+import './App.css';
+import { CheckSession } from './services/Auth';
 
 const App = () => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
 
   const handleLogOut = () => {
-    //Reset all auth related state and clear localStorage
-    setUser(null)
-    localStorage.clear()
-  }
+    setUser(null);
+    localStorage.clear();
+  };
 
   const checkToken = async () => {
-    const user = await CheckSession()
-    setUser(user)
-  }
+    const user = await CheckSession();
+    setUser(user);
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
     if (token) {
-      checkToken()
+      checkToken();
     }
-  }, [])
+  }, []);
 
   return (
     <div className="App">
-      {/* <Nav user={user} handleLogOut={handleLogOut} /> */}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route path="/feed" element={<Feed user={user} />} /> */}
+          <Route path="/add-country" element={<AddCountry />} />
+          <Route path="/add-hotel" element={<AddHotel />} />
+          <Route path="/add-place" element={<AddPlace />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contacts" element={<Contacts />} />
+          <Route path="/gallery" element={<Gallery />} />
         </Routes>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
