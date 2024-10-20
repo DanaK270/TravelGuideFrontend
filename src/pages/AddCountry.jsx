@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import Client from '../services/api'
+// const upload = multer()
 
 const AddCountry = () => {
   const [name, setName] = useState('')
@@ -33,6 +34,16 @@ const AddCountry = () => {
           placeholder="Continent"
           required
         />
+         <div>
+          <label>Country Flag</label>
+          <input
+            filename={formData.image}
+            name="image"
+            onChange={(e) => handleFileChange(e, e.target.files[0])}
+            type="file"
+            accept="image/*"
+          ></input>
+        </div>
         <button type="submit" className="primary__btn">
           Add Country
         </button>
