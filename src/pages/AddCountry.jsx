@@ -37,7 +37,7 @@ const AddCountry = () => {
          <div>
           <label>Country Flag</label>
           <input
-            filename={formData.image}
+            filename={countryData.image}
             name="image"
             onChange={(e) => handleFileChange(e, e.target.files[0])}
             type="file"
