@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react'
+import axios from 'axios'
+import Client from '../services/api'
 
 const AddCountry = () => {
-  const [name, setName] = useState('');
-  const [continent, setContinent] = useState('');
+  const [name, setName] = useState('')
+  const [continent, setContinent] = useState('')
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    await axios.post('/countries', { name, continent });
-    setName('');
-    setContinent('');
-  };
+    e.preventDefault()
+    await Client.post('/country/addCountry', { name, continent })
+    setName('')
+    setContinent('')
+  }
 
   return (
     <section className="form-container">
@@ -32,10 +33,12 @@ const AddCountry = () => {
           placeholder="Continent"
           required
         />
-        <button type="submit" className="primary__btn">Add Country</button>
+        <button type="submit" className="primary__btn">
+          Add Country
+        </button>
       </form>
     </section>
-  );
-};
+  )
+}
 
-export default AddCountry;
+export default AddCountry
