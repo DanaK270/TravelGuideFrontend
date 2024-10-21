@@ -117,26 +117,14 @@ const EditHotel = () => {
         <select
           className="input"
           name="country"
-          value={hotelData.country}
+          value={hotelData.country._id}
           onChange={handleChange}
           required
-          // defaultValue={hotelData.country._id}
         >
           <option value="">Select a Country</option>
-          <option
-            value={hotelData.country._id}
-            defaultValue={hotelData.country._id}
-          >
-            {hotelData.country.name}
-          </option>
-          {countries.map((country) => (
-            <option
-              // key={country._id || hotelData.country._id}
-              // value={country._id || hotelData.country._id}
-              key={country._id}
-              value={country._id}
-            >
-              {/* {country.name || hotelData.country.name} */}
+
+          {countries?.map((country) => (
+            <option key={country._id} value={country._id}>
               {country.name}
             </option>
           ))}
