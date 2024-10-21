@@ -24,7 +24,7 @@ import { CheckSession } from './services/Auth'
 import './App.css'
 import Gallery from './pages/Gallery'
 import HotelDetails from './pages/HotelDetails'
-// import PlaceDetails from './pages/PlaceDetails'
+import PlaceDetails from './pages/PlaceDetails'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -103,7 +103,7 @@ const App = () => {
             <Route path="edit-place/:id" element={<EditPlace />} />
             <Route path="gallery" element={<Gallery />} />
             <Route path="hotel-details/:id" element={<HotelDetails />} />
-            {/* <Route path="place-details/:id" element={<PlaceDetails />} /> */}
+            <Route path="place-details/:id" element={<PlaceDetails />} />
           </Route>
         </Routes>
       </div>
