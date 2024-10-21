@@ -17,6 +17,23 @@ const EditPlace = () => {
   const [countries, setCountries] = useState([])
 
   useEffect(() => {
+    const fetchPlace = async () => {
+      try {
+        const placeResponse = await Client.get(`/Place/${id}`)
+        console.log(placeResponse.data)
+        setPlaceData({
+          name: placeResponse.data.name,
+          location: placeResponse.data.location,
+          description: placeResponse.description,
+          country: placeResponse.data.country,
+          link: placeResponse.data.link,
+          image: placeResponse.data.image
+        })
+      } catch (error) {
+        console.error('Error fetching place:', error)
+      }
+    }
+
     const fetchCountries = async () => {
       try {
         const countryResponse = await Client.get('/country')
@@ -26,8 +43,9 @@ const EditPlace = () => {
       }
     }
 
+    fetchPlace()
     fetchCountries()
-  }, [])
+  }, [id])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -82,14 +100,14 @@ const EditPlace = () => {
           placeholder="Place Name"
           required
         />
-        <input
+        {/* <input
           className="input"
           name="location"
           type="text"
           value={placeData.location}
           onChange={handleChange}
           placeholder="Place Location"
-        />
+        /> */}
         <input
           className="input"
           name="link"
@@ -110,7 +128,7 @@ const EditPlace = () => {
         <select
           className="input"
           name="country"
-          value={placeData.country}
+          value={placeData.country._id}
           onChange={handleChange}
           required
         >

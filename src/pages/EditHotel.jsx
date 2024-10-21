@@ -97,14 +97,14 @@ const EditHotel = () => {
           placeholder="Hotel Name"
           required
         />
-        <input
+        {/* <input
           className="input"
           name="location"
           type="text"
           value={hotelData.location}
           onChange={handleChange}
           placeholder="Hotel Location"
-        />
+        /> */}
         <input
           className="input"
           name="link"
