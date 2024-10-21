@@ -17,6 +17,7 @@ import BookHotel from './components/BookHotel'
 import UserBlog from './components/UserBlog'
 import FlightTracking from './components/FlightTracking'
 import Countries from './pages/Countries'
+import CommunityChat from './components/CommunityChat'
 import EditHotel from './pages/EditHotel'
 import EditPlace from './pages/EditPlace'
 import { CheckSession } from './services/Auth'
@@ -49,12 +50,12 @@ const App = () => {
   }, [])
   const flow = {
     start: {
-      message: 'Hello Travellers!',
+      message: 'Hello Travelers!',
       path: 'ask_where'
     },
     ask_where: {
       message:
-        'Here is a list of the hot destenations of 2025, 1. Moscow, Russia. 2. Laplandm Finland',
+        'Here is a list of the hot destinations of 2025, 1. Moscow, Russia. 2. Lapland Finland',
       path: 'ask_when'
     },
     ask_when: {
@@ -95,6 +96,7 @@ const App = () => {
             <Route path="user-blog" element={<UserBlog />} />
             <Route path="flight-tracking" element={<FlightTracking />} />
             <Route path="countries" element={<Countries />} />
+            <Route path="community-chat" element={<CommunityChat />} />
             <Route path="edit-hotel/:id" element={<EditHotel />} />
             <Route path="edit-place/:id" element={<EditPlace />} />
             <Route path="gallery" element={<Gallery />} />
