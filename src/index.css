@@ -1,0 +1,50 @@
+body.dark-mode {
+  background-color: #181818;
+  color: #e0e0e0;
+}
+
+body.dark-mode .navbar {
+  background: linear-gradient(to right, #333333, #444444);
+}
+
+body.dark-mode .navbar a {
+  color: #e0e0e0;
+}
+
+body.dark-mode footer {
+  background: linear-gradient(to right, #333333, #444444);
+}
+
+body.dark-mode .home {
+  color: #e0e0e0;
+}
+
+body.dark-mode .home h1,
+body.dark-mode .home h2 {
+  color: #ffdd57;
+}
+
+body.dark-mode button {
+  background-color: #444444;
+  color: #ffffff;
+}
+
+body.dark-mode button:hover {
+  background-color: #555555;
+}
+
+body.dark-mode .home-container,
+body.dark-mode .about-container,
+body.dark-mode .auth-container {
+  background-color: #252525;
+  border-color: #6a5acd;
+}
+
+body.dark-mode .park-details {
+  background-color: #303030;
+  color: #e0e0e0;
+}
+
+body.dark-mode p {
+  color: #e0e0e0;
+}

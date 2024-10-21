@@ -15,6 +15,7 @@ import CommunityChat from './components/CommunityChat'
 import UserBlog from './components/UserBlog'
 import FlightTracking from './components/FlightTracking' // Importing FlightTracking
 import './App.css'
+import Nav from './components/Nav'
 import { CheckSession } from './services/Auth'
 import EditHotel from './pages/EditHotel'
 import EditPlace from './pages/EditPlace'
@@ -43,6 +44,7 @@ const App = () => {
     //i commented the Router because we already have one in main.jsx. and using more than one Router causes errors
     // <Router>
     <div className="App">
+      <Nav user={user} handleLogOut={handleLogOut} />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
