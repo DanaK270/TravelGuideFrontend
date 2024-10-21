@@ -23,6 +23,7 @@ body {
   color: var(--text-color);
   min-height: 100vh;
   overflow-x: hidden;
+  margin-top: 100px;
 }
 
 /* Navbar */
@@ -135,7 +136,8 @@ body {
   border-radius: var(--border-radius);
   text-align: center;
   text-decoration: none;
-  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  transition: background-color var(--transition-speed),
+    transform var(--transition-speed);
 }
 
 .feature-link:hover {
