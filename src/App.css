@@ -4,149 +4,178 @@
 :root {
   --primary-color: #ff7e01;
   --secondary-color: #faa935;
+  --accent-color: #fcbf49;
   --heading-color: #0b2727;
   --text-color: #6e7074;
+  --background-color: #f9f9f9;
   --font-name: "Montserrat", sans-serif;
   --subtitle-font-name: "Island Moments", cursive;
+  --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.15);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-name);
-  background-color: #f9f9f9;
-  line-height: 1.6;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.75;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  padding: 0;
 }
 
-section {
-  padding: 40px 20px;
+/* Navbar */
+.navbar {
   width: 100%;
-  max-width: 800px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: var(--heading-color);
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-a {
-  text-decoration: none;
-  color: var(--primary-color);
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: var(--secondary-color);
-}
-
-button, .primary__btn, .secondary__btn {
-  border: none;
-  border-radius: 50px;
-  padding: 0.6rem 1.8rem;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  display: inline-block;
-  margin: 10px 0;
-}
-
-.primary__btn {
-  background: linear-gradient(45deg, var(--secondary-color), #fcbf49);
-}
-
-.primary__btn:hover {
-  background: linear-gradient(45deg, #fcbf49, var(--secondary-color));
-}
-
-.secondary__btn {
-  background: transparent;
-  color: var(--heading-color);
-  border: 2px solid var(--heading-color);
-}
-
-.secondary__btn:hover {
-  background: var(--heading-color);
-  color: #fff;
-}
-
-.input, textarea {
-  height: 50px;
-  width: 100%;
-  padding-left: 1.5rem;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: border-color 0.3s ease;
-}
-
-.input:focus, textarea:focus {
-  border-color: var(--primary-color);
-  outline: none;
-}
-
-textarea {
-  height: 100px;
-}
-
-.success-msg {
-  color: green;
-  text-align: center;
-  margin: 10px 0;
-  font-weight: bold;
-}
-
-.error__msg {
-  color: red;
-  text-align: center;
-  margin: 10px 0;
-  font-weight: bold;
-}
-
-/* Forms for BookFlight and BookHotel */
-.form-container {
-  padding: 20px;
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
   background-color: var(--primary-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.navbar-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.sidebar-toggle {
+  background: none;
   border: none;
   color: white;
-  font-size: 16px;
-  border-radius: 5px;
+  font-size: 24px;
   cursor: pointer;
+}
+
+/* Sidebar with Add Features */
+.sidebar {
+  width: 250px;
+  background-color: #333;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  height: 100vh;
+  transition: left 0.3s ease;
+  z-index: 999;
+  padding-top: 80px; /* Push content below the navbar */
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.add-features {
+  padding: 20px;
+}
+
+.add-features h3 {
+  text-align: center;
+  color: var(--heading-color);
+  margin-bottom: 20px;
+}
+
+.feature-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.feature-link {
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
   transition: background 0.3s ease;
+}
+
+.feature-link:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Main Content */
+.main-content {
+  margin-top: 70px;
+  padding: 40px 20px;
+  width: 100%;
+  max-width: 1200px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar.open ~ .main-content {
+  margin-left: 250px;
+}
+
+.main-content h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: var(--heading-color);
+}
+
+.main-content p {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* General Navigation Links */
+.general-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.general-nav a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 8px;
+}
+
+.general-nav a:hover {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
   background-color: var(--secondary-color);
+  transform: scale(1.02);
 }
 
 button:disabled {
@@ -154,127 +183,34 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Stripe Payment Styles */
-.StripeElement {
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.StripeElement--focus {
-  border-color: var(--primary-color);
-}
-
-.StripeElement--invalid {
-  border-color: red;
-}
-
-/* Chat Styles */
-.chat-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.chat-messages {
-  width: 100%;
-  max-width: 500px;
-  height: 300px;
-  overflow-y: auto;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-}
-
-.chat-input {
-  width: 100%;
-  max-width: 500px;
-  display: flex;
-}
-
-.chat-input input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px;
-}
-
-.chat-input button {
-  padding: 10px;
-  border: none;
-  background-color: var(--primary-color);
-  color: white;
-  border-radius: 0 5px 5px 0;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.chat-input button:hover {
-  background-color: var(--secondary-color);
-}
-
-/* Gallery Styles */
-.gallery {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.gallery-image {
-  max-width: 200px;
-  height: auto;
-  border-radius: 5px;
-}
-
-/* Flight Tracking Styles */
-.flight-info {
-  background-color: #f4f4f4;
-  padding: 20px;
-  margin-top: 10px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.flight-info p {
-  margin: 10px 0;
-  font-size: 1rem;
-  color: var(--text-color);
-}
-
-/* Media Queries for Mobile Devices */
+/* Responsive Design */
 @media (max-width: 768px) {
-  h1, h2, h3, h4, h5, h6 {
-    font-size: 1.5rem;
+  .sidebar {
+    width: 100%;
+    left: -100%;
   }
 
-  .primary__btn, .secondary__btn {
-    padding: 0.4rem 1.2rem;
-    font-size: 0.9rem;
+  .sidebar.open {
+    left: 0;
   }
 
-  section {
+  .sidebar.open ~ .main-content {
+    margin-left: 0;
+  }
+
+  .navbar-title {
+    font-size: 20px;
+  }
+
+  .main-content {
     padding: 20px;
   }
 
-  .chat-container, .form-container {
-    width: 100%;
+  .feature-links {
+    gap: 10px;
   }
 
-  .chat-messages, .chat-input {
-    width: 100%;
-  }
-
-  .gallery-image {
-    max-width: 150px;
-  }
-
-  .flight-info {
-    padding: 15px;
-    margin-top: 15px;
+  .general-nav a {
+    font-size: 16px;
   }
 }
