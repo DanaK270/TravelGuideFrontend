@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import StripeWrapper from './StripePayment';
+// import StripeWrapper from './StripePayment';
 
 const BookFlight = () => {
   const [flightDetails, setFlightDetails] = useState({
