@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { SignInUser } from '../services/Auth'
 import { useNavigate } from 'react-router-dom'
+import Navbar from '../components/Navbar';
 
 const SignIn = ({ setUser }) => {
   let navigate = useNavigate()
