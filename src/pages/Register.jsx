@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { RegisterUser } from '../services/Auth'
 import { useNavigate } from 'react-router-dom'
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar'
 
 const Register = () => {
   let navigate = useNavigate()
@@ -29,7 +29,7 @@ const Register = () => {
         role: formValues.role
       })
       setFormValues(initState)
-      navigate('/signin')
+      navigate('/sign-in')
     } catch (err) {
       setErrorMessage(
         'Registration failed! Please try again with different credintials'

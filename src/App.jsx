@@ -1,56 +1,60 @@
 // src/App.jsx
-import { useState, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { DarkModeProvider } from './contexts/DarkModeContext';
-import Layout from './components/Layout';
-import Home from './pages/Home';
-import SignIn from './pages/SignIn';
-import Register from './pages/Register';
-import AboutUs from './pages/AboutUs';
-import Contacts from './pages/Contacts';
-import AddCountry from './pages/AddCountry';
-import AddHotel from './pages/AddHotel';
-import AddPlace from './pages/AddPlace';
-import BookFlight from './components/BookFlight';
-import BookHotel from './components/BookHotel';
-import UserBlog from './components/UserBlog';
-import FlightTracking from './components/FlightTracking';
-import Countries from './pages/Countries';
-import EditHotel from './pages/EditHotel';
-import EditPlace from './pages/EditPlace';
-import { CheckSession } from './services/Auth';
-import './App.css';
+import { useState, useEffect } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { DarkModeProvider } from './contexts/DarkModeContext'
+import Layout from './components/Layout'
+import Home from './pages/Home'
+import SignIn from './pages/SignIn'
+import Register from './pages/Register'
+import AboutUs from './pages/AboutUs'
+import Contacts from './pages/Contacts'
+import AddCountry from './pages/AddCountry'
+import AddHotel from './pages/AddHotel'
+import AddPlace from './pages/AddPlace'
+import BookFlight from './components/BookFlight'
+import BookHotel from './components/BookHotel'
+import UserBlog from './components/UserBlog'
+import FlightTracking from './components/FlightTracking'
+import Countries from './pages/Countries'
+import EditHotel from './pages/EditHotel'
+import EditPlace from './pages/EditPlace'
+import { CheckSession } from './services/Auth'
+import './App.css'
+import Gallery from './pages/Gallery'
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null)
 
   const handleLogOut = () => {
-    setUser(null);
-    localStorage.clear();
-  };
+    setUser(null)
+    localStorage.clear()
+  }
 
   const checkToken = async () => {
     try {
-      const user = await CheckSession();
-      setUser(user);
+      const user = await CheckSession()
+      setUser(user)
     } catch (error) {
-      console.error('Session check failed:', error);
-      handleLogOut();
+      console.error('Session check failed:', error)
+      handleLogOut()
     }
-  };
+  }
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     if (token) {
-      checkToken();
+      checkToken()
     }
-  }, []);
+  }, [])
 
   return (
     <DarkModeProvider>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Layout user={user} handleLogOut={handleLogOut} />}>
+          <Route
+            path="/"
+            element={<Layout user={user} handleLogOut={handleLogOut} />}
+          >
             <Route index element={<Home user={user} />} />
             <Route path="sign-in" element={<SignIn setUser={setUser} />} />
             <Route path="register" element={<Register />} />
@@ -66,11 +70,12 @@ const App = () => {
             <Route path="countries" element={<Countries />} />
             <Route path="edit-hotel/:id" element={<EditHotel />} />
             <Route path="edit-place/:id" element={<EditPlace />} />
+            <Route path="gallery" element={<Gallery />} />
           </Route>
         </Routes>
       </div>
     </DarkModeProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App
