@@ -59,10 +59,12 @@ const App = () => {
           <Route path="/community-chat" element={<CommunityChat />} />
           <Route path="/user-blog" element={<UserBlog />} />
           <Route path="/flight-tracking" element={<FlightTracking />} />
+
           <Route path="edit-hotel/:id" element={<EditHotel />} />
           <Route path="edit-place/:id" element={<EditPlace />} />
 
           {/* New Route */}
+
         </Routes>
       </main>
     </div>
