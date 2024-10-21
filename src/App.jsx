@@ -15,6 +15,7 @@ import BookFlight from './components/BookFlight';
 import BookHotel from './components/BookHotel';
 import UserBlog from './components/UserBlog';
 import FlightTracking from './components/FlightTracking';
+import Countries from './pages/Countries';
 import EditHotel from './pages/EditHotel';
 import EditPlace from './pages/EditPlace';
 import { CheckSession } from './services/Auth';
@@ -29,8 +30,13 @@ const App = () => {
   };
 
   const checkToken = async () => {
-    const user = await CheckSession();
-    setUser(user);
+    try {
+      const user = await CheckSession();
+      setUser(user);
+    } catch (error) {
+      console.error('Session check failed:', error);
+      handleLogOut();
+    }
   };
 
   useEffect(() => {
@@ -44,7 +50,7 @@ const App = () => {
     <div className="App">
       <Routes>
         <Route path="/" element={<Layout user={user} handleLogOut={handleLogOut} />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home user={user} />} />
           <Route path="sign-in" element={<SignIn setUser={setUser} />} />
           <Route path="register" element={<Register />} />
           <Route path="add-country" element={<AddCountry />} />
@@ -57,6 +63,7 @@ const App = () => {
           <Route path="book-hotel" element={<BookHotel />} />
           <Route path="user-blog" element={<UserBlog />} />
           <Route path="flight-tracking" element={<FlightTracking />} />
+          <Route path="countries" element={<Countries />} />
           <Route path="edit-hotel/:id" element={<EditHotel />} />
           <Route path="edit-place/:id" element={<EditPlace />} />
         </Route>
