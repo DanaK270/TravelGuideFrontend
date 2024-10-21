@@ -4,202 +4,213 @@
 :root {
   --primary-color: #ff7e01;
   --secondary-color: #faa935;
+  --accent-color: #fcbf49;
   --heading-color: #0b2727;
   --text-color: #6e7074;
+  --background-color: #f9f9f9;
   --font-name: "Montserrat", sans-serif;
   --subtitle-font-name: "Island Moments", cursive;
+  --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.15);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-name);
-  background-color: #f9f9f9;
-  line-height: 1.6;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.75;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   min-height: 100vh;
-}
-
-section {
-  padding: 40px 20px;
-  width: 100%;
-  max-width: 800px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: var(--heading-color);
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-a {
-  text-decoration: none;
-  color: var(--primary-color);
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: var(--secondary-color);
-}
-
-ul {
-  list-style: none;
   padding: 0;
 }
 
-button, .primary__btn, .secondary__btn {
+/* Navbar */
+.navbar {
+  width: 100%;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.navbar-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.sidebar-toggle {
+  background: none;
   border: none;
-  border-radius: 50px;
-  padding: 0.6rem 1.8rem;
+  color: white;
+  font-size: 24px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  display: inline-block;
-  margin: 10px 0;
 }
 
-.primary__btn {
-  background: linear-gradient(45deg, var(--secondary-color), #fcbf49);
+/* Sidebar with Add Features */
+.sidebar {
+  width: 250px;
+  background-color: #333;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  height: 100vh;
+  transition: left 0.3s ease;
+  z-index: 999;
+  padding-top: 80px; /* Push content below the navbar */
 }
 
-.primary__btn:hover {
-  background: linear-gradient(45deg, #fcbf49, var(--secondary-color));
+.sidebar.open {
+  left: 0;
 }
 
-.secondary__btn {
-  background: transparent;
+.add-features {
+  padding: 20px;
+}
+
+.add-features h3 {
+  text-align: center;
   color: var(--heading-color);
-  border: 2px solid var(--heading-color);
+  margin-bottom: 20px;
 }
 
-.secondary__btn:hover {
-  background: var(--heading-color);
-  color: #fff;
-}
-
-.error__msg {
+.feature-links {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.section__subtitle {
-  background: var(--secondary-color);
-  font-family: var(--subtitle-font-name);
-  padding: 0 0.5rem;
-  border-radius: 50px;
-  font-weight: 500;
-  font-size: 1.7rem;
-  color: var(--heading-color);
-  margin: 20px auto;
-}
-
-.loader-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 15vh;
-}
-
-.loader {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid var(--primary-color);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.loading-text {
-  font-size: 1.2rem;
-  color: var(--text-color);
-}
-
-form {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-}
-
-.input {
-  height: 50px;
-  width: 100%;
-  padding-left: 1.5rem;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: border-color 0.3s ease;
-}
-
-.input:focus {
-  border-color: var(--primary-color);
-  outline: none;
-}
-
-textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: border-color 0.3s ease;
-}
-
-textarea:focus {
-  border-color: var(--primary-color);
-  outline: none;
-}
-
-.gallery {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 15px;
 }
 
-.gallery-image {
-  max-width: 200px;
-  height: auto;
-  border-radius: 5px;
+.feature-link {
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
 }
 
+.feature-link:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Main Content */
+.main-content {
+  margin-top: 70px;
+  padding: 40px 20px;
+  width: 100%;
+  max-width: 1200px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar.open ~ .main-content {
+  margin-left: 250px;
+}
+
+.main-content h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: var(--heading-color);
+}
+
+.main-content p {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* General Navigation Links */
+.general-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.general-nav a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 8px;
+}
+
+.general-nav a:hover {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.02);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  h1, h2, h3, h4, h5, h6 {
-    font-size: 1.5rem;
+  .sidebar {
+    width: 100%;
+    left: -100%;
   }
 
-  .primary__btn, .secondary__btn {
-    padding: 0.4rem 1.2rem;
-    font-size: 0.9rem;
+  .sidebar.open {
+    left: 0;
   }
 
-  section {
+  .sidebar.open ~ .main-content {
+    margin-left: 0;
+  }
+
+  .navbar-title {
+    font-size: 20px;
+  }
+
+  .main-content {
     padding: 20px;
   }
 
-  .gallery-image {
-    max-width: 150px;
+  .feature-links {
+    gap: 10px;
+  }
+
+  .general-nav a {
+    font-size: 16px;
   }
 }
