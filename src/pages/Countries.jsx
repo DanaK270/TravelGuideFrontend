@@ -1,7 +1,7 @@
 // pages/Countries.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Client from '../services/api'; // Adjust based on your setup
+import Client from '../services/api'; 
 
 
 const Countries = () => {
@@ -11,7 +11,7 @@ const Countries = () => {
 
   const fetchCountries = async () => {
     try {
-      const res = await Client.get('/api/countries'); // Fetch countries from backend
+      const res = await Client.get('/api/countries'); backend
       setCountries(res.data);
       setLoading(false);
     } catch (err) {
