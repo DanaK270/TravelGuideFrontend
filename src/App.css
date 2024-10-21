@@ -36,8 +36,10 @@ body {
   font-family: "Montserrat", sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
+
   transition: background-color var(--transition-speed), color var(--transition-speed);
   padding: var(--spacing);
+
   margin-top: 100px;
 }
 
@@ -156,8 +158,15 @@ body {
   height: auto;
   object-fit: cover;
   border-radius: var(--border-radius);
+
   box-shadow: var(--shadow-light);
   transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+
+  text-align: center;
+  text-decoration: none;
+  transition: background-color var(--transition-speed),
+    transform var(--transition-speed);
+
 }
 
 .gallery-image:hover {
