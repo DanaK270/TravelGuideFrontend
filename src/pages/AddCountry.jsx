@@ -1,16 +1,35 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react'
+import Client from '../services/api'
+import { useNavigate } from 'react-router-dom'
 
 const AddCountry = () => {
-  const [name, setName] = useState('');
-  const [continent, setContinent] = useState('');
+  const navigate = useNavigate()
+  const [formData, setFormData] = useState({
+    name: ''
+    // flag:''
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData({
+      ...formData,
+      [name]: value
+    })
+  }
+
+  // const handleFileChange = (e, file) => {
+  //   setFormData({
+  //     ...formData,
+  //     image: file
+  //   })
+  // }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    await axios.post('/countries', { name, continent });
-    setName('');
-    setContinent('');
-  };
+    e.preventDefault()
+    const result = await Client.post('/country/', formData)
+    console.log(result.data)
+    navigate('/')
+  }
 
   return (
     <section className="form-container">
@@ -18,24 +37,27 @@ const AddCountry = () => {
       <form onSubmit={handleSubmit}>
         <input
           className="input"
+          name="name"
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={formData.name}
+          onChange={handleChange}
           placeholder="Country Name"
           required
         />
-        <input
+        {/* <input
           className="input"
           type="text"
           value={continent}
           onChange={(e) => setContinent(e.target.value)}
           placeholder="Continent"
           required
-        />
-        <button type="submit" className="primary__btn">Add Country</button>
+        /> */}
+        <button type="submit" className="primary__btn">
+          Add Country
+        </button>
       </form>
     </section>
-  );
-};
+  )
+}
 
-export default AddCountry;
+export default AddCountry
