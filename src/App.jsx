@@ -16,6 +16,8 @@ import UserBlog from './components/UserBlog'
 import FlightTracking from './components/FlightTracking' // Importing FlightTracking
 import './App.css'
 import { CheckSession } from './services/Auth'
+import EditHotel from './pages/EditHotel'
+import EditPlace from './pages/EditPlace'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -57,7 +59,12 @@ const App = () => {
           <Route path="/community-chat" element={<CommunityChat />} />
           <Route path="/user-blog" element={<UserBlog />} />
           <Route path="/flight-tracking" element={<FlightTracking />} />
-       
+
+          <Route path="edit-hotel/:id" element={<EditHotel />} />
+          <Route path="edit-place/:id" element={<EditPlace />} />
+
+          {/* New Route */}
+
         </Routes>
       </main>
     </div>
