@@ -1,5 +1,6 @@
 // src/App.jsx
 import { useState, useEffect } from 'react'
+import ChatBot from 'react-chatbotify'
 import { Route, Routes } from 'react-router-dom'
 import { DarkModeProvider } from './contexts/DarkModeContext'
 import Layout from './components/Layout'
@@ -46,10 +47,36 @@ const App = () => {
       checkToken()
     }
   }, [])
+  const flow = {
+    start: {
+      message: 'Hello Travellers!',
+      path: 'ask_where'
+    },
+    ask_where: {
+      message:
+        'Here is a list of the hot destenations of 2025, 1. Moscow, Russia. 2. Laplandm Finland',
+      path: 'ask_when'
+    },
+    ask_when: {
+      message: 'Which season are you thinking?',
+      path: 'ask_more'
+    },
+    ask_more: {
+      message: 'Anything else?'
+    }
+
+    // start: {
+    //   message: 'Where are you thinking?'
+    // }
+  }
 
   return (
     <DarkModeProvider>
       <div className="App">
+        <>
+          <div></div>
+          <ChatBot flow={flow} />
+        </>
         <Routes>
           <Route
             path="/"
