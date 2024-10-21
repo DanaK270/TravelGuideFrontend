@@ -16,6 +16,22 @@ const EditHotel = () => {
   const [countries, setCountries] = useState([])
 
   useEffect(() => {
+    const fetchHotel = async () => {
+      try {
+        const hotelResponse = await Client.get(`/Hotel/${id}`)
+        console.log(hotelResponse.data)
+        setHotelData({
+          name: hotelResponse.data.name,
+          location: hotelResponse.data.location,
+          country: hotelResponse.data.country,
+          link: hotelResponse.data.link,
+          image: hotelResponse.data.image
+        })
+      } catch (error) {
+        console.error('Error fetching hotel:', error)
+      }
+    }
+
     const fetchCountries = async () => {
       try {
         const countryResponse = await Client.get('/country')
@@ -25,8 +41,9 @@ const EditHotel = () => {
       }
     }
 
+    fetchHotel()
     fetchCountries()
-  }, [])
+  }, [id])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -80,14 +97,14 @@ const EditHotel = () => {
           placeholder="Hotel Name"
           required
         />
-        <input
+        {/* <input
           className="input"
           name="location"
           type="text"
           value={hotelData.location}
           onChange={handleChange}
           placeholder="Hotel Location"
-        />
+        /> */}
         <input
           className="input"
           name="link"
@@ -100,12 +117,13 @@ const EditHotel = () => {
         <select
           className="input"
           name="country"
-          value={hotelData.country}
+          value={hotelData.country._id}
           onChange={handleChange}
           required
         >
           <option value="">Select a Country</option>
-          {countries.map((country) => (
+
+          {countries?.map((country) => (
             <option key={country._id} value={country._id}>
               {country.name}
             </option>
