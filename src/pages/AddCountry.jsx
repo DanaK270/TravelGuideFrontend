@@ -1,22 +1,60 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import Client from '../services/api'
-// const upload = multer()
+import React, { useState } from 'react';
+import axios from 'axios';
+import Client from '../services/api'; // Assuming you have an API service setup
 
 const AddCountry = () => {
-  const [name, setName] = useState('')
-  const [continent, setContinent] = useState('')
+  const [id, setId] = useState(null); // State for country ID (for updating)
+  const [name, setName] = useState('');
+  const [continent, setContinent] = useState('');
+  const [countryFlag, setCountryFlag] = useState(null); // State for the file
 
+  // Handle file change
+  const handleFileChange = (e) => {
+    setCountryFlag(e.target.files[0]); // Store the selected file
+  };
+
+  // Function to add or update country
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await Client.post('/country/addCountry', { name, continent })
-    setName('')
-    setContinent('')
-  }
+    e.preventDefault();
+
+    // Create a FormData object to handle file upload
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('continent', continent);
+    if (countryFlag) formData.append('image', countryFlag); // Attach the file if present
+
+    try {
+      if (id) {
+        // If ID exists, update the country
+        await Client.put(`/country/${id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log('Country updated successfully');
+      } else {
+        // If no ID, add a new country
+        await Client.post('/country/addCountry', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log('Country added successfully');
+      }
+
+      // Clear the form fields after submission
+      setId(null);
+      setName('');
+      setContinent('');
+      setCountryFlag(null);
+    } catch (error) {
+      console.error('Error adding/updating country:', error);
+    }
+  };
 
   return (
     <section className="form-container">
-      <h1>Add Country</h1>
+      <h1>{id ? 'Update Country' : 'Add Country'}</h1>
       <form onSubmit={handleSubmit}>
         <input
           className="input"
@@ -34,22 +72,21 @@ const AddCountry = () => {
           placeholder="Continent"
           required
         />
-         <div>
+        <div>
           <label>Country Flag</label>
           <input
-            filename={countryData.image}
             name="image"
-            onChange={(e) => handleFileChange(e, e.target.files[0])}
+            onChange={handleFileChange}
             type="file"
             accept="image/*"
-          ></input>
+          />
         </div>
         <button type="submit" className="primary__btn">
-          Add Country
+          {id ? 'Update Country' : 'Add Country'}
         </button>
       </form>
     </section>
-  )
-}
+  );
+};
 
-export default AddCountry
+export default AddCountry;
