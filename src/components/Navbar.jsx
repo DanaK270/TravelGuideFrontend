@@ -20,6 +20,7 @@ export default function Navbar() {
         <Link to="/book-hotel">Book Hotel</Link>
         <Link to="/user-blog">User Blog</Link>
         <Link to="/flight-tracking">Flight Tracking</Link>
+        <Link to="/countries">Countries</Link>
       </nav>
     </header>
   );
