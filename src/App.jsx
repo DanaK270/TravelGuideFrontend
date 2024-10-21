@@ -11,7 +11,7 @@ import Contacts from './pages/Contacts'
 import Gallery from './pages/Gallery'
 import BookFlight from './components/BookFlight'
 import BookHotel from './components/BookHotel'
-import CommunityChat from './components/CommunityChat'
+// import CommunityChat from './components/CommunityChat'
 import UserBlog from './components/UserBlog'
 import FlightTracking from './components/FlightTracking' // Importing FlightTracking
 import './App.css'
@@ -56,7 +56,7 @@ const App = () => {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/book-flight" element={<BookFlight />} />
           <Route path="/book-hotel" element={<BookHotel />} />
-          <Route path="/community-chat" element={<CommunityChat />} />
+          {/* <Route path="/community-chat" element={<CommunityChat />} /> */}
           <Route path="/user-blog" element={<UserBlog />} />
           <Route path="/flight-tracking" element={<FlightTracking />} />
 
@@ -64,7 +64,6 @@ const App = () => {
           <Route path="edit-place/:id" element={<EditPlace />} />
 
           {/* New Route */}
-
         </Routes>
       </main>
     </div>
