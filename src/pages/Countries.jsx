@@ -26,47 +26,20 @@ const Countries = () => {
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>{error}</p>
-  //
-  let button
-  if (showPlaces) {
-    button = <button onClick={handleButtonClick}>Hide Places</button>
-  } else {
-    button = <button onClick={handleButtonClick}>Show Places</button>
-  }
-
-  const placesList = showPlaces && (
-    <ul>
-      {places.map((place, index) => (
-        <li key={index}>{place}</li>
-      ))}
-    </ul>
-  )
-
-  //
 
   return (
-    <>
-      <div className="countries-container">
-        <h2 className="countries-title">Countries</h2>
-        <ul className="countries-list">
-          {countries.map((country) => (
-            <li key={country.id} className="country-item">
-              <Link to={`/countries/${country.id}`} className="country-link">
-                {country.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h1>{country}</h1>
-        <p>
-          The user is <b>{loggedIn ? 'currently' : 'not'}</b> logged in.
-        </p>
-        {button}
-        {placesList}
-      </div>
-    </>
+    <div className="countries-container">
+      <h2 className="countries-title">Countries</h2>
+      <ul className="countries-list">
+        {countries.map((country) => (
+          <li key={country.id} className="country-item">
+            <Link to={`/countries/${country.id}`} className="country-link">
+              {country.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 

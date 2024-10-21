@@ -1,8 +1,12 @@
-// components/Navbar.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
+// src/components/Navbar.jsx
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { FaSun, FaMoon } from 'react-icons/fa'
+import { DarkModeContext } from '../contexts/DarkModeContext'
 
 export default function Navbar() {
+  const { darkMode, toggleDarkMode } = useContext(DarkModeContext)
+
   return (
     <header className="navbar">
       <div className="navbar-left">
@@ -22,6 +26,9 @@ export default function Navbar() {
         <Link to="/flight-tracking">Flight Tracking</Link>
         <Link to="/countries">Countries</Link>
       </nav>
+      <button onClick={toggleDarkMode} className="dark-mode-toggle">
+        {darkMode ? <FaSun /> : <FaMoon />}
+      </button>
     </header>
-  );
+  )
 }
