@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+// import StripeWrapper from './StripePayment';
 
 const BookFlight = () => {
   const [flightDetails, setFlightDetails] = useState({
@@ -12,42 +13,24 @@ const BookFlight = () => {
     setFlightDetails({ ...flightDetails, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handlePaymentSuccess = async (paymentMethodId) => {
     await axios.post('/api/bookings/book-flight', {
-      flightDetails,
-      userId: localStorage.getItem('userId'),
-      paymentInfo: {}, // Add Stripe payment info if needed
+      ...flightDetails,
+      user: localStorage.getItem('userId'),
+      paymentMethodId,
     });
+    alert('Flight booked successfully!');
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="flightNumber"
-        placeholder="Flight Number"
-        value={flightDetails.flightNumber}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="date"
-        name="date"
-        value={flightDetails.date}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        name="price"
-        placeholder="Price"
-        value={flightDetails.price}
-        onChange={handleChange}
-        required
-      />
-      <button type="submit">Book Flight</button>
-    </form>
+    <div>
+      <form>
+        <input type="text" name="flightNumber" placeholder="Flight Number" onChange={handleChange} />
+        <input type="date" name="date" onChange={handleChange} />
+        <input type="number" name="price" placeholder="Price" onChange={handleChange} />
+      </form>
+      <StripeWrapper onPaymentSuccess={handlePaymentSuccess} price={flightDetails.price} />
+    </div>
   );
 };
 
