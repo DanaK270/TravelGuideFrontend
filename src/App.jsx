@@ -1,32 +1,32 @@
 // src/App.jsx
 
-import { useState, useEffect } from "react"
-import ChatBot from "react-chatbotify"
-import { Route, Routes } from "react-router-dom"
-import { DarkModeProvider } from "./contexts/DarkModeContext"
-import Layout from "./components/Layout"
-import Home from "./pages/Home"
-import SignIn from "./pages/SignIn"
-import Register from "./pages/Register"
-import AboutUs from "./pages/AboutUs"
-import Contacts from "./pages/Contacts"
-import AddCountry from "./pages/AddCountry"
-import AddHotel from "./pages/AddHotel"
-import AddPlace from "./pages/AddPlace"
-import BookFlight from "./components/BookFlight"
-import BookHotel from "./components/BookHotel"
-import UserBlog from "./components/UserBlog"
-import FlightTracking from "./components/FlightTracking"
-import Countries from "./pages/Countries"
-import CommunityChat from "./components/CommunityChat"
-import EditHotel from "./pages/EditHotel"
-import EditPlace from "./pages/EditPlace"
-import { CheckSession } from "./services/Auth"
-import "./App.css"
-import Gallery from "./pages/Gallery"
+import { useState, useEffect } from 'react'
+import ChatBot from 'react-chatbotify'
+import { Route, Routes } from 'react-router-dom'
+import { DarkModeProvider } from './contexts/DarkModeContext'
+import Layout from './components/Layout'
+import Home from './pages/Home'
+import SignIn from './pages/SignIn'
+import Register from './pages/Register'
+import AboutUs from './pages/AboutUs'
+import Contacts from './pages/Contacts'
+import AddCountry from './pages/AddCountry'
+import AddHotel from './pages/AddHotel'
+import AddPlace from './pages/AddPlace'
+import BookFlight from './components/BookFlight'
+import BookHotel from './components/BookHotel'
+import UserBlog from './components/UserBlog'
+import FlightTracking from './components/FlightTracking'
+import Countries from './pages/Countries'
+import CommunityChat from './components/CommunityChat'
+import EditHotel from './pages/EditHotel'
+import EditPlace from './pages/EditPlace'
+import { CheckSession } from './services/Auth'
+import './App.css'
+import Gallery from './pages/Gallery'
 import HotelDetails from './pages/HotelDetails'
 import PlaceDetails from './pages/PlaceDetails'
-
+import CountryDetails from './pages/CountryDetails'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -41,35 +41,34 @@ const App = () => {
       const user = await CheckSession()
       setUser(user)
     } catch (error) {
-      console.error("Session check failed:", error)
+      console.error('Session check failed:', error)
       handleLogOut()
     }
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem('token')
     if (token) {
       checkToken()
     }
-  }, 
-  [])
+  }, [])
   const flow = {
     start: {
-      message: "Hello Travelers!",
-      path: "ask_where",
+      message: 'Hello Travelers!',
+      path: 'ask_where'
     },
     ask_where: {
       message:
-        "Here is a list of the hot destinations of 2025, 1. Moscow, Russia. 2. Lapland Finland",
-      path: "ask_when",
+        'Here is a list of the hot destinations of 2025, 1. Moscow, Russia. 2. Lapland Finland',
+      path: 'ask_when'
     },
     ask_when: {
-      message: "Which season are you thinking?",
-      path: "ask_more",
+      message: 'Which season are you thinking?',
+      path: 'ask_more'
     },
     ask_more: {
-      message: "Anything else?",
-    },
+      message: 'Anything else?'
+    }
 
     // start: {
     //   message: 'Where are you thinking?'
@@ -80,13 +79,13 @@ const App = () => {
   //   useEffect(() => {
   //     localStorage.setItem("botState", JSON.stringify(botState));
   //   }, [botState]);
-  
+
   //   const handleOptionClick = (key, value) => {
   //     setBotState((prev) => ({ ...prev, [key]: value }));
   //   };
-  
+
   //   const goToPage = useCallback((path) => navigate(path), [navigate]);
-  
+
   //   const flow = {
   //     start: {
   //       message: "Hello Travelers! Ready to explore the top destinations of 2025?",
@@ -122,7 +121,7 @@ const App = () => {
   //       message: () => {
   //         const { destination, season } = botState;
   //         if (!destination || !season) return "Please select a destination and season first.";
-  
+
   //         const recommendations = {
   //           Moscow: {
   //             Winter: "Moscow is magical in winter with snow-covered streets and holiday markets!",
@@ -145,7 +144,7 @@ const App = () => {
   //             Winter: "Winter in Cape Town offers amazing whale watching opportunities.",
   //           },
   //         };
-  
+
   //         return recommendations[destination]?.[season] || `${destination} is wonderful in ${season}!`;
   //       },
   //       options: [
@@ -196,6 +195,7 @@ const App = () => {
             <Route path="gallery" element={<Gallery />} />
             <Route path="hotel-details/:id" element={<HotelDetails />} />
             <Route path="place-details/:id" element={<PlaceDetails />} />
+            <Route path="country-details/:id" element={<CountryDetails />} />
           </Route>
         </Routes>
       </div>
