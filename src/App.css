@@ -364,4 +364,4 @@ button:disabled {
 
 .chat-messages::-webkit-scrollbar-thumb:hover {
   background-color: var(--secondary-color);
-}
+} 
