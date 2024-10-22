@@ -1,40 +1,48 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const UserBlog = () => {
-  const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState({ title: '', content: '' });
-  const userId = localStorage.getItem('userId'); // Get the logged-in user's ID
+  const [posts, setPosts] = useState([])
+  const [newPost, setNewPost] = useState({ title: '', content: '' })
+  const userId = localStorage.getItem('userId') // Get the logged-in user's ID
+  console.log('User ID:', userId)
 
   // Fetch posts when the component loads
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const response = await axios.get(`/api/blogs/${userId}`);
-        setPosts(response.data);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
+      if (!userId) {
+        console.warn('User ID is null. Cannot fetch posts.')
+        return
       }
-    };
-    fetchPosts();
-  }, [userId]);
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/blogs/${userId}`
+        )
+        console.log('Fetched posts:', response.data)
+        setPosts(response.data)
+      } catch (error) {
+        console.error('Error fetching posts:', error)
+      }
+    }
+    fetchPosts()
+  }, [userId])
 
   const handleChange = (e) => {
-    setNewPost({ ...newPost, [e.target.name]: e.target.value });
-  };
+    setNewPost({ ...newPost, [e.target.name]: e.target.value })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      await axios.post('/api/blogs', { ...newPost, userId });
-      setNewPost({ title: '', content: '' }); // Reset the form
+      await axios.post('/api/blogs', { ...newPost, userId })
+      setNewPost({ title: '', content: '' }) // Reset the form
       // Refresh posts after adding a new one
-      const response = await axios.get(`/api/blogs/${userId}`);
-      setPosts(response.data);
+      const response = await axios.get(`/api/blogs/${userId}`)
+      setPosts(response.data)
     } catch (error) {
-      console.error('Error adding post:', error);
+      console.error('Error adding post:', error)
     }
-  };
+  }
 
   return (
     <div className="blog-container">
@@ -67,7 +75,7 @@ const UserBlog = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UserBlog;
+export default UserBlog
