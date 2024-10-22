@@ -1,28 +1,30 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
-const BookHotel = () => {
+const BookHotel = ({ user }) => {
   const [hotelDetails, setHotelDetails] = useState({
     hotelName: '',
     location: '',
     date: '',
-    price: 0,
-  });
+    price: 0
+  })
+  let navigate = useNavigate()
 
   const handleChange = (e) => {
-    setHotelDetails({ ...hotelDetails, [e.target.name]: e.target.value });
-  };
+    setHotelDetails({ ...hotelDetails, [e.target.name]: e.target.value })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     await axios.post('/api/bookings/book-hotel', {
       hotelDetails,
       userId: localStorage.getItem('userId'),
-      paymentInfo: {},
-    });
-  };
+      paymentInfo: {}
+    })
+  }
 
-  return (
+  return user ? (
     <form onSubmit={handleSubmit}>
       <input
         type="text"
@@ -57,7 +59,12 @@ const BookHotel = () => {
       />
       <button type="submit">Book Hotel</button>
     </form>
-  );
-};
+  ) : (
+    <>
+      <h3>Oops! You must be signed in to do that!</h3>
+      <button onClick={() => navigate('/sign-in')}>Sign In</button>
+    </>
+  )
+}
 
-export default BookHotel;
+export default BookHotel

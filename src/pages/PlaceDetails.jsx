@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Client from '../services/api'
 import { useParams } from 'react-router-dom'
 
-const PlaceDetails = () => {
+const PlaceDetails = ({ user }) => {
   const { id } = useParams()
   const [place, setPlace] = useState('')
   const [reviewData, setReviewData] = useState({ comment: '', score: 0 })
@@ -13,6 +13,15 @@ const PlaceDetails = () => {
       setPlace(res.data)
     } catch (err) {
       console.error('Error fetching place:', err)
+    }
+  }
+
+  const deleteRev = async (delId) => {
+    try {
+      await Client.delete(`/review/delete/${delId}`)
+      getPlace()
+    } catch (err) {
+      console.error('Error deleteing review:', err)
     }
   }
 
@@ -88,7 +97,7 @@ const PlaceDetails = () => {
           </a>
         </div>
         <div>
-          <img src={img} alt="img" />
+          <img src={img} alt="img" width="500px" />
         </div>
       </div>
 
@@ -106,46 +115,57 @@ const PlaceDetails = () => {
               }}
             >
               <h4>{review.comment} </h4>
-              <h4>{review.score} / 5</h4>
+              <div>
+                <h4>{review.score} / 5</h4>
+                <button
+                  onClick={() => {
+                    deleteRev(review._id)
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
         </ul>
       </div>
 
-      <div style={{ marginTop: '5%', padding: '1%' }}>
-        <form onSubmit={handleSubmit}>
-          <h3>Leave a Review</h3>
-          <br />
-          <div>
-            <textarea
-              name="comment"
-              value={reviewData.comment}
-              onChange={handleChange}
-              required
-              rows="3"
-              style={{ width: '100%', marginBottom: '1rem' }}
-              placeholder={`what do you think about ${place.name} ?`}
-            />
-          </div>
-          <div>
-            <label>Rate Your Experience at {place.name}!</label>
+      {user && (
+        <div style={{ marginTop: '5%', padding: '1%' }}>
+          <form onSubmit={handleSubmit}>
+            <h3>Leave a Review</h3>
             <br />
-            <input
-              className="input"
-              style={{ height: '30px', width: '200px' }}
-              type="number"
-              name="score"
-              value={reviewData.score}
-              onChange={handleChange}
-              min="1"
-              max="5"
-              required
-            />
-          </div>
-          <br />
-          <button type="submit">Submit Review</button>
-        </form>
-      </div>
+            <div>
+              <textarea
+                name="comment"
+                value={reviewData.comment}
+                onChange={handleChange}
+                required
+                rows="3"
+                style={{ width: '100%', marginBottom: '1rem' }}
+                placeholder={`what do you think about ${place.name} ?`}
+              />
+            </div>
+            <div>
+              <label>Rate Your Experience at {place.name}!</label>
+              <br />
+              <input
+                className="input"
+                style={{ height: '30px', width: '200px' }}
+                type="number"
+                name="score"
+                value={reviewData.score}
+                onChange={handleChange}
+                min="1"
+                max="5"
+                required
+              />
+            </div>
+            <br />
+            <button type="submit">Submit Review</button>
+          </form>
+        </div>
+      )}
     </>
   )
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Client from '../services/api'
 import { useNavigate, useParams } from 'react-router-dom'
 
-const EditPlace = () => {
+const EditPlace = ({ user }) => {
   const { id } = useParams()
   const navigate = useNavigate()
 
@@ -87,7 +87,7 @@ const EditPlace = () => {
     }
   }
 
-  return (
+  return user && user.role === 'admin' ? (
     <section className="form-container">
       <h1>Edit Place</h1>
       <form onSubmit={handleSubmit}>
@@ -152,6 +152,8 @@ const EditPlace = () => {
         </button>
       </form>
     </section>
+  ) : (
+    <div>you are not allowed to access this page</div>
   )
 }
 

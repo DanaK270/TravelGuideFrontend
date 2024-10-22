@@ -1,75 +1,81 @@
-import { useState, useEffect } from 'react';
-import io from 'socket.io-client';
+import { useState, useEffect } from 'react'
+import io from 'socket.io-client'
+import { useNavigate } from 'react-router-dom'
 
-const socket = io('http://localhost:5000'); // Connect to backend server
+const socket = io('http://localhost:5000') // Connect to backend server
 
-const CommunityChat = () => {
-  const [message, setMessage] = useState(''); // Input message
-  const [messages, setMessages] = useState([]); // List of chat messages
+const CommunityChat = ({ user }) => {
+  const [message, setMessage] = useState('') // Input message
+  const [messages, setMessages] = useState([]) // List of chat messages
+  let navigate = useNavigate()
 
   // Load previous messages and listen for new ones
   useEffect(() => {
     socket.on('previousMessages', (prevMessages) => {
-      console.log('Previous messages:', prevMessages);
-      setMessages(prevMessages);
-    });
+      console.log('Previous messages:', prevMessages)
+      setMessages(prevMessages)
+    })
 
     socket.on('message', (newMessage) => {
-      console.log('New message received:', newMessage);
-      setMessages((prev) => [...prev, newMessage]);
-    });
+      console.log('New message received:', newMessage)
+      setMessages((prev) => [...prev, newMessage])
+    })
 
     socket.on('error', (err) => {
-      console.error('Socket error:', err);
-      alert(err); // Display the error to the user
-    });
+      console.error('Socket error:', err)
+      alert(err) // Display the error to the user
+    })
 
     // Clean up listeners on component unmount
     return () => {
-      socket.off('previousMessages');
-      socket.off('message');
-      socket.off('error');
-    };
-  }, []);
+      socket.off('previousMessages')
+      socket.off('message')
+      socket.off('error')
+    }
+  }, [])
 
   const sendMessage = (e) => {
-    e.preventDefault(); // Prevent page refresh
+    e.preventDefault() // Prevent page refresh
 
-    const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
+    const userId = localStorage.getItem('userId') // Retrieve userId from localStorage
 
     if (!userId || userId.length !== 24) {
-      alert('Invalid user ID. Please log in again.');
-      console.error('Invalid user ID. Found:', userId);
-      return;
+      alert('Invalid user ID. Please log in again.')
+      console.error('Invalid user ID. Found:', userId)
+      return
     }
 
     const msg = {
       content: message,
       user: userId,
-      timestamp: new Date(), // Add timestamp to the message
-    };
+      timestamp: new Date() // Add timestamp to the message
+    }
 
     socket.emit('message', msg, (ack) => {
       if (ack && ack.status === 'ok') {
-        console.log('Message successfully saved.');
+        console.log('Message successfully saved.')
       } else {
-        alert('Message could not be saved.');
-        console.error('Server error:', ack);
+        alert('Message could not be saved.')
+        console.error('Server error:', ack)
       }
-    });
+    })
 
-    setMessage(''); // Clear input field
-  };
+    setMessage('') // Clear input field
+  }
 
-  return (
+  return user ? (
     <div className="chat-container">
       <h1>Community Chat</h1>
       <div className="chat-messages">
         {messages.map((msg, index) => (
           <p key={index}>
             <strong>User {msg.user?.name || 'Guest'}:</strong> {msg.content}
-            <span style={{ marginLeft: '10px', fontSize: '0.8em', color: 'gray' }}>
-              {msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString() : 'No Date'}
+            <span
+              style={{ marginLeft: '10px', fontSize: '0.8em', color: 'gray' }}
+            >
+              {msg.timestamp
+                ? new Date(msg.timestamp).toLocaleTimeString()
+                : 'No Date'}
             </span>
           </p>
         ))}
@@ -85,7 +91,12 @@ const CommunityChat = () => {
         <button type="submit">Send</button>
       </form>
     </div>
-  );
-};
+  ) : (
+    <>
+      <h3>Oops! You must be signed in to do that!</h3>
+      <button onClick={() => navigate('/sign-in')}>Sign In</button>
+    </>
+  )
+}
 
-export default CommunityChat;
+export default CommunityChat

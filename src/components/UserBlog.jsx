@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
-const UserBlog = () => {
+const UserBlog = ({ user }) => {
   const [posts, setPosts] = useState([])
   const [newPost, setNewPost] = useState({ title: '', content: '' })
   const userId = localStorage.getItem('userId') // Get the logged-in user's ID
   console.log('User ID:', userId)
+
+  let navigate = useNavigate()
 
   // Fetch posts when the component loads
   useEffect(() => {
@@ -44,7 +47,7 @@ const UserBlog = () => {
     }
   }
 
-  return (
+  return user ? (
     <div className="blog-container">
       <h1>Your Blog</h1>
       <form onSubmit={handleSubmit}>
@@ -75,6 +78,11 @@ const UserBlog = () => {
         ))}
       </div>
     </div>
+  ) : (
+    <>
+      <h3>Oops! You must be signed in to do that!</h3>
+      <button onClick={() => navigate('/sign-in')}>Sign In</button>
+    </>
   )
 }
 
