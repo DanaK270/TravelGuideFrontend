@@ -29,7 +29,7 @@ const BookFlight = () => {
         <input type="date" name="date" onChange={handleChange} />
         <input type="number" name="price" placeholder="Price" onChange={handleChange} />
       </form>
-      <StripeWrapper onPaymentSuccess={handlePaymentSuccess} price={flightDetails.price} />
+      {/* <StripeWrapper onPaymentSuccess={handlePaymentSuccess} price={flightDetails.price} /> */}
     </div>
   );
 };
