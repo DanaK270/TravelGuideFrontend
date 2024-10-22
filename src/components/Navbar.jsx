@@ -26,6 +26,8 @@ export default function Navbar() {
         <Link to="/flight-tracking">Flight Tracking</Link>
         <Link to="/countries">Countries</Link>
         <Link to="/community-chat">Community Chat</Link>
+        <button onClick={() => logout()}>Logout</button>
+
       </nav>
       <button onClick={toggleDarkMode} className="dark-mode-toggle">
         {darkMode ? <FaSun /> : <FaMoon />}
