@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Client from '../services/api'
 import { useNavigate, useParams } from 'react-router-dom'
 
-const EditHotel = () => {
+const EditHotel = ({ user }) => {
   const { id } = useParams()
   const navigate = useNavigate()
 
@@ -18,7 +18,7 @@ const EditHotel = () => {
   useEffect(() => {
     const fetchHotel = async () => {
       try {
-        const hotelResponse = await Client.get(`/Hotel/${id}`)
+        const hotelResponse = await Client.get(`/hotel/${id}`)
         console.log(hotelResponse.data)
         setHotelData({
           name: hotelResponse.data.name,
@@ -74,7 +74,7 @@ const EditHotel = () => {
     }
 
     try {
-      const result = await Client.put(`/Hotel/${id}`, formData, {
+      const result = await Client.put(`/hotel/${id}`, hotelData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       console.log(result.data)
@@ -84,7 +84,7 @@ const EditHotel = () => {
     }
   }
 
-  return (
+  return user && user.role === 'admin' ? (
     <section className="form-container">
       <h1>Edit Hotel</h1>
       <form onSubmit={handleSubmit}>
@@ -142,6 +142,8 @@ const EditHotel = () => {
         </button>
       </form>
     </section>
+  ) : (
+    <div>you are not allowed to access this page</div>
   )
 }
 

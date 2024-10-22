@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-const CountryDetails = () => {
+const CountryDetails = ({ user }) => {
   const { id } = useParams()
 
   // State for the country data and selected tab (hotels/places)
   const [country, setCountry] = useState({})
   const [selectedTab, setSelectedTab] = useState('hotels')
+
+  let navigate = useNavigate()
 
   // Fetch country details based on the id from params
   useEffect(() => {
@@ -27,6 +30,15 @@ const CountryDetails = () => {
   // Function to handle tab change
   const handleClick = (category) => {
     setSelectedTab(category)
+  }
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:4000/country/${id}`)
+      navigate('/countries')
+    } catch (error) {
+      console.error('Error deleting country:', error)
+    }
   }
 
   return (
@@ -60,6 +72,20 @@ const CountryDetails = () => {
             Places
           </button>
         </div>
+        {/* Show Delete Button if user role is 'admin' */}
+        {user?.role === 'admin' && (
+          <button
+            style={{
+              padding: '1rem 2rem',
+              border: 'none',
+              cursor: 'pointer',
+              marginBottom: '2rem'
+            }}
+            onClick={handleDelete}
+          >
+            Delete Country
+          </button>
+        )}
         <h2 style={{ marginBottom: '2rem' }}>
           {selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)}
         </h2>

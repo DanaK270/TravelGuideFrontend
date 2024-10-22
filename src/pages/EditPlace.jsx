@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Client from '../services/api'
 import { useNavigate, useParams } from 'react-router-dom'
 
-const EditPlace = () => {
+const EditPlace = ({ user }) => {
   const { id } = useParams()
+  console.log(id)
   const navigate = useNavigate()
 
   const [placeData, setPlaceData] = useState({
@@ -19,7 +20,7 @@ const EditPlace = () => {
   useEffect(() => {
     const fetchPlace = async () => {
       try {
-        const placeResponse = await Client.get(`/Place/${id}`)
+        const placeResponse = await Client.get(`/place/${id}`)
         console.log(placeResponse.data)
         setPlaceData({
           name: placeResponse.data.name,
@@ -76,10 +77,13 @@ const EditPlace = () => {
       formData.append('image', placeData.image)
     }
 
+    console.log('form data', formData)
+
     try {
-      const result = await Client.put(`/Place/${id}`, formData, {
+      const result = await Client.put(`/place/${id}`, placeData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
+
       console.log(result.data)
       navigate('/')
     } catch (error) {
@@ -87,7 +91,7 @@ const EditPlace = () => {
     }
   }
 
-  return (
+  return user && user.role === 'admin' ? (
     <section className="form-container">
       <h1>Edit Place</h1>
       <form onSubmit={handleSubmit}>
@@ -152,6 +156,8 @@ const EditPlace = () => {
         </button>
       </form>
     </section>
+  ) : (
+    <div>you are not allowed to access this page</div>
   )
 }
 
