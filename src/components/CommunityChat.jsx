@@ -32,28 +32,15 @@ const CommunityChat = () => {
     };
   }, []);
 
-  // Verify userId on page load and ensure it’s valid
-  useEffect(() => {
-    const storedUserId = localStorage.getItem('userId');
-    if (!storedUserId || storedUserId.length !== 24) {
-      alert('User ID is missing or invalid. Please log in again.');
-      console.error('Invalid user ID on load:', storedUserId);
-    } else {
-      console.log('Valid userId retrieved:', storedUserId);
-    }
-  }, []);
-
   const sendMessage = (e) => {
     e.preventDefault(); // Prevent page refresh
 
     const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
-    console.log('Retrieved userId:', userId); // Log the retrieved userId
 
-    // Validate the userId to ensure it's valid
     if (!userId || userId.length !== 24) {
       alert('Invalid user ID. Please log in again.');
-      console.error('Invalid user ID. Found:', userId); // Log for debugging
-      return; // Stop if the userId is invalid
+      console.error('Invalid user ID. Found:', userId);
+      return;
     }
 
     const msg = {
@@ -61,9 +48,7 @@ const CommunityChat = () => {
       user: userId,
       timestamp: new Date(), // Add timestamp to the message
     };
-    console.log('Sending message:', msg); // Log the message before sending
 
-    // Send the message to the server and handle acknowledgment
     socket.emit('message', msg, (ack) => {
       if (ack && ack.status === 'ok') {
         console.log('Message successfully saved.');
@@ -84,7 +69,7 @@ const CommunityChat = () => {
           <p key={index}>
             <strong>User {msg.user?.name || 'Guest'}:</strong> {msg.content}
             <span style={{ marginLeft: '10px', fontSize: '0.8em', color: 'gray' }}>
-              {new Date(msg.timestamp).toLocaleTimeString()}
+              {msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString() : 'No Date'}
             </span>
           </p>
         ))}
