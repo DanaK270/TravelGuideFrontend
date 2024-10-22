@@ -33,7 +33,10 @@ const Countries = () => {
       <ul className="countries-list">
         {countries.map((country) => (
           <li key={country.id} className="country-item">
-            <Link to={`/countries/${country.id}`} className="country-link">
+            <Link
+              to={`../country-details/${country._id}`}
+              className="country-link"
+            >
               {country.name}
             </Link>
           </li>
