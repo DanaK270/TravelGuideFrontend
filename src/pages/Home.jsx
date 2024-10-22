@@ -9,11 +9,9 @@ export default function Home({ user }) {
 
   return (
     <div className="home-container">
-      {user?.isAdmin && (
-        <button className="sidebar-toggle" onClick={toggleSidebar}>
-          ☰
-        </button>
-      )}
+      <button className="sidebar-toggle" onClick={toggleSidebar}>
+        ☰
+      </button>
 
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="add-features">
