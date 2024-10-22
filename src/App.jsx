@@ -206,7 +206,10 @@ const App = () => {
               path="place-details/:id"
               element={<PlaceDetails user={user} />}
             />
-            <Route path="country-details/:id" element={<CountryDetails />} />
+            <Route
+              path="country-details/:id"
+              element={<CountryDetails user={user} />}
+            />
           </Route>
         </Routes>
       </div>
