@@ -40,24 +40,31 @@ const CountryDetails = () => {
 
         <ul>
           {selectedTab === 'hotels' ? (
-            country.hotels?.map((hotel) => (
-              <li key={hotel._id}>
-                <div>
-                  <h3>Hotel: {hotel.name}</h3>
-                  <img src={hotel.image} alt={hotel.name} />
-                </div>
-              </li>
-            ))
+            country.hotels?.map((hotel) => {
+              const img = `http://localhost:4000/images/${hotel.image}`
+
+              return (
+                <li key={hotel._id}>
+                  <div>
+                    <h3>Hotel: {hotel.name}</h3>
+                    <img src={img} alt={hotel.name} />
+                  </div>
+                </li>
+              )
+            })
           ) : selectedTab === 'places' ? (
-            country.places?.map((place) => (
-              <li key={place._id}>
-                <div>
-                  <h3>Place: {place.name}</h3>
-                  <img src={place.image} alt={place.name} />
-                  <p>Description: {place.description}</p>
-                </div>
-              </li>
-            ))
+            country.places?.map((place) => {
+              const img = `http://localhost:4000/images/${place.image}`
+              return (
+                <li key={place._id}>
+                  <div>
+                    <h3>Place: {place.name}</h3>
+                    <img src={img} alt={place.name} />
+                    <p>Description: {place.description}</p>
+                  </div>
+                </li>
+              )
+            })
           ) : (
             <p>No {selectedTab} available</p>
           )}
