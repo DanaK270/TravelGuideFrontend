@@ -39,10 +39,7 @@ const BookFlight = () => {
           onChange={handleChange}
         />
       </form>
-      {/* <StripeWrapper
-        onPaymentSuccess={handlePaymentSuccess}
-        price={flightDetails.price}
-      /> */}
+      {/* <StripeWrapper onPaymentSuccess={handlePaymentSuccess} price={flightDetails.price} /> */}
     </div>
   )
 }
