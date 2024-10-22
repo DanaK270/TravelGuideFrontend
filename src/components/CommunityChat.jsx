@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:4000'); // Connect to backend server
+const socket = io('http://localhost:5000'); // Connect to backend server
 
 const CommunityChat = () => {
   const [message, setMessage] = useState(''); // Input message
@@ -32,10 +32,15 @@ const CommunityChat = () => {
     };
   }, []);
 
-  // Check and log the userId on page load
+  // Verify userId on page load and ensure it’s valid
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
-    console.log('Retrieved userId from localStorage:', storedUserId);
+    if (!storedUserId || storedUserId.length !== 24) {
+      alert('User ID is missing or invalid. Please log in again.');
+      console.error('Invalid user ID on load:', storedUserId);
+    } else {
+      console.log('Valid userId retrieved:', storedUserId);
+    }
   }, []);
 
   const sendMessage = (e) => {
@@ -58,7 +63,16 @@ const CommunityChat = () => {
     };
     console.log('Sending message:', msg); // Log the message before sending
 
-    socket.emit('message', msg); // Send the message to the server
+    // Send the message to the server and handle acknowledgment
+    socket.emit('message', msg, (ack) => {
+      if (ack && ack.status === 'ok') {
+        console.log('Message successfully saved.');
+      } else {
+        alert('Message could not be saved.');
+        console.error('Server error:', ack);
+      }
+    });
+
     setMessage(''); // Clear input field
   };
 
