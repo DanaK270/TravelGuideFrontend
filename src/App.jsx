@@ -1,6 +1,4 @@
-// src/App.jsx
-
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import ChatBot from 'react-chatbotify'
 import { Route, Routes } from 'react-router-dom'
 import { DarkModeProvider } from './contexts/DarkModeContext'
@@ -30,6 +28,7 @@ import CountryDetails from './pages/CountryDetails'
 
 const App = () => {
   const [user, setUser] = useState(null)
+  const [form, setForm] = useState({})
 
   const handleLogOut = () => {
     setUser(null)
@@ -49,128 +48,97 @@ const App = () => {
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
-      checkToken()
+      ;(async () => {
+        await checkToken()
+      })()
     }
   }, [])
+
   const flow = {
     start: {
-      message: 'Hello Travelers!',
-      path: 'ask_where'
+      message: () => {
+        const seenBefore = localStorage.getItem('example_welcome')
+        if (seenBefore) {
+          return `Welcome back ${seenBefore}!`
+        }
+        return "Welcome there :wave:! It's Travel Trove, what is your name?"
+      },
+      function: (params) =>
+        localStorage.setItem('example_welcome', params.userInput),
+      path: 'say_assist'
     },
-    ask_where: {
+    say_assist: {
+      message: (params) =>
+        `Great knowing you ${params.userInput}, how can I assist you today?`,
+      path: 'ask_option1'
+    },
+    ask_option1: {
       message:
-        'Here is a list of the hot destinations of 2025, 1. Moscow, Russia. 2. Lapland Finland',
-      path: 'ask_when'
+        'Would you like recommendations for trending destinations in 2025?',
+      options: ['Yes', 'No'],
+      function: (params) =>
+        setForm({ ...form, travel_ownership: params.userInput }),
+      path: 'ask_choice'
     },
-    ask_when: {
-      message: 'Which season are you thinking?',
-      path: 'ask_more'
+    ask_choice: {
+      message: 'Select at least 2 activities you are interested in:',
+      checkboxes: {
+        items: [
+          'Theme Parks',
+          'Adrenaline Rush',
+          'Leisure tourism',
+          'Cultural Tourism'
+        ],
+        min: 2
+      },
+      function: (params) => setForm({ ...form, pet_choices: params.userInput }),
+      path: 'ask_work_days'
     },
-    ask_more: {
-      message: 'Anything else?'
+    ask_work_days: {
+      message: 'Which season do you prefer?',
+      checkboxes: {
+        items: ['Winter', 'Summer', 'Autumn', 'Spring'],
+        max: 2
+      },
+      function: (params) =>
+        setForm({ ...form, num_work_days: params.userInput }),
+      path: 'ask_cont'
+    },
+    ask_cont: {
+      message: 'Where in the world?',
+      checkboxes: {
+        items: ['Asia', 'Europe', 'Americas', 'Austrilia'],
+        max: 2
+      },
+      function: (params) =>
+        setForm({ ...form, num_work_days: params.userInput }),
+      path: 'end'
+    },
+    end: {
+      message: 'These are the best fits for you!',
+      component: (
+        <div>
+          <p>Activities: {form.pet_choices}</p>
+          <p>Season: {form.num_work_days}</p>
+        </div>
+      ),
+      options: ['New Application'],
+      chatDisabled: true,
+      path: 'start'
     }
-
-    // start: {
-    //   message: 'Where are you thinking?'
-    // }
   }
 
-  //   // Save chatbot state to localStorage
-  //   useEffect(() => {
-  //     localStorage.setItem("botState", JSON.stringify(botState));
-  //   }, [botState]);
-
-  //   const handleOptionClick = (key, value) => {
-  //     setBotState((prev) => ({ ...prev, [key]: value }));
-  //   };
-
-  //   const goToPage = useCallback((path) => navigate(path), [navigate]);
-
-  //   const flow = {
-  //     start: {
-  //       message: "Hello Travelers! Ready to explore the top destinations of 2025?",
-  //       options: [
-  //         { text: "Yes, let’s go!", path: "ask_where" },
-  //         { text: "Tell me more about your service.", path: "about_us" },
-  //       ],
-  //     },
-  //     about_us: {
-  //       message: "We help you explore the world with personalized recommendations and easy booking services!",
-  //       path: "ask_where",
-  //     },
-  //     ask_where: {
-  //       message: "Which of these hot destinations are you interested in?",
-  //       options: [
-  //         { text: "Moscow, Russia", path: "ask_when", onClick: () => handleOptionClick("destination", "Moscow") },
-  //         { text: "Lapland, Finland", path: "ask_when", onClick: () => handleOptionClick("destination", "Lapland") },
-  //         { text: "Kyoto, Japan", path: "ask_when", onClick: () => handleOptionClick("destination", "Kyoto") },
-  //         { text: "New York, USA", path: "ask_when", onClick: () => handleOptionClick("destination", "New York") },
-  //         { text: "Cape Town, South Africa", path: "ask_when", onClick: () => handleOptionClick("destination", "Cape Town") },
-  //       ],
-  //     },
-  //     ask_when: {
-  //       message: "Great choice! Which season would you like to visit?",
-  //       options: [
-  //         { text: "Winter", path: "recommendation", onClick: () => handleOptionClick("season", "Winter") },
-  //         { text: "Summer", path: "recommendation", onClick: () => handleOptionClick("season", "Summer") },
-  //         { text: "Spring", path: "recommendation", onClick: () => handleOptionClick("season", "Spring") },
-  //         { text: "Autumn", path: "recommendation", onClick: () => handleOptionClick("season", "Autumn") },
-  //       ],
-  //     },
-  //     recommendation: {
-  //       message: () => {
-  //         const { destination, season } = botState;
-  //         if (!destination || !season) return "Please select a destination and season first.";
-
-  //         const recommendations = {
-  //           Moscow: {
-  //             Winter: "Moscow is magical in winter with snow-covered streets and holiday markets!",
-  //             Summer: "Moscow in summer is vibrant with outdoor festivals and warm evenings.",
-  //           },
-  //           Lapland: {
-  //             Winter: "Lapland is perfect for Northern Lights and meeting Santa!",
-  //             Summer: "Enjoy the midnight sun and scenic hikes in Lapland’s summer.",
-  //           },
-  //           Kyoto: {
-  //             Spring: "Kyoto’s cherry blossoms are breathtaking in spring!",
-  //             Autumn: "The autumn foliage in Kyoto is a sight to behold.",
-  //           },
-  //           "New York": {
-  //             Winter: "Experience New York’s winter magic with ice skating and holiday lights.",
-  //             Summer: "Summer in New York is perfect for rooftop dining and park events.",
-  //           },
-  //           "Cape Town": {
-  //             Summer: "Cape Town’s beaches are a dream in summer!",
-  //             Winter: "Winter in Cape Town offers amazing whale watching opportunities.",
-  //           },
-  //         };
-
-  //         return recommendations[destination]?.[season] || `${destination} is wonderful in ${season}!`;
-  //       },
-  //       options: [
-  //         { text: "Tell me more!", path: "ask_more" },
-  //         { text: "Book my trip!", onClick: () => goToPage("/book-flight") },
-  //       ],
-  //     },
-  //     ask_more: {
-  //       message: "What else would you like to explore?",
-  //       options: [
-  //         { text: "Show me hotels.", onClick: () => goToPage("/book-hotel") },
-  //         { text: "What attractions are available?", path: "ask_where" },
-  //         { text: "I’m done for now.", path: "end_convo" },
-  //       ],
-  //     },
-  //     end_convo: {
-  //       message: "Thank you for using our service! Have a great trip!",
-  //     },
-  //   };
   return (
     <DarkModeProvider>
       <div className="App">
-        <>
-          <div></div>
-          <ChatBot flow={flow} />
-        </>
+        <ChatBot
+          settings={{
+            voice: { disabled: false },
+            botBubble: { simStream: true },
+            chatHistory: { storageKey: 'example_basic_form' }
+          }}
+          flow={flow}
+        />
         <Routes>
           <Route
             path="/"
