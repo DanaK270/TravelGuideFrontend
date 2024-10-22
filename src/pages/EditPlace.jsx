@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const EditPlace = ({ user }) => {
   const { id } = useParams()
+  console.log(id)
   const navigate = useNavigate()
 
   const [placeData, setPlaceData] = useState({
@@ -19,7 +20,7 @@ const EditPlace = ({ user }) => {
   useEffect(() => {
     const fetchPlace = async () => {
       try {
-        const placeResponse = await Client.get(`/Place/${id}`)
+        const placeResponse = await Client.get(`/place/${id}`)
         console.log(placeResponse.data)
         setPlaceData({
           name: placeResponse.data.name,
@@ -76,10 +77,13 @@ const EditPlace = ({ user }) => {
       formData.append('image', placeData.image)
     }
 
+    console.log('form data', formData)
+
     try {
-      const result = await Client.put(`/Place/${id}`, formData, {
+      const result = await Client.put(`/place/${id}`, placeData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
+
       console.log(result.data)
       navigate('/')
     } catch (error) {
