@@ -16,6 +16,15 @@ const HotelDetails = () => {
     }
   }
 
+  const deleteRev = async (delId) => {
+    try {
+      await Client.delete(`/review/delete/${delId}`)
+      getHotel()
+    } catch (err) {
+      console.error('Error deleteing review:', err)
+    }
+  }
+
   useEffect(() => {
     getHotel()
   }, [])
@@ -95,7 +104,7 @@ const HotelDetails = () => {
           <h2 style={{ marginLeft: '2%' }}>Reviews</h2>
           {hotel.reviews?.map((review) => (
             <li
-              key={review.id}
+              key={review._id}
               className="country-item"
               style={{
                 margin: '10px',
@@ -103,8 +112,20 @@ const HotelDetails = () => {
                 justifyContent: 'space-between'
               }}
             >
-              <h4>{review.comment} </h4>
-              <h4>{review.score} / 5</h4>
+              <div>
+                <h4>{review.comment} </h4>
+              </div>
+
+              <div>
+                <h4>{review.score} / 5</h4>
+                <button
+                  onClick={() => {
+                    deleteRev(review._id)
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
         </ul>
