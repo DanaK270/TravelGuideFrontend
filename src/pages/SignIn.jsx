@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { SignInUser } from '../services/Auth'
 import { useNavigate } from 'react-router-dom'
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar'
 
 const SignIn = ({ setUser }) => {
   let navigate = useNavigate()
@@ -19,6 +19,11 @@ const SignIn = ({ setUser }) => {
       const payload = await SignInUser(formValues)
       setFormValues(initState)
       setUser(payload)
+
+      const userId = payload.id
+      localStorage.setItem('userId', userId)
+      console.log('User ID stored:', userId)
+
       navigate('/')
     } catch (err) {
       setErrorMessage('wrong credintilas, sign in falied!')
