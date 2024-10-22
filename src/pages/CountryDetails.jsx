@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const CountryDetails = () => {
   const { id } = useParams()
@@ -49,6 +50,12 @@ const CountryDetails = () => {
                     <h3>Hotel: {hotel.name}</h3>
                     <img src={img} alt={hotel.name} />
                   </div>
+                  <Link
+                    to={`../hotel-details/${hotel._id}`}
+                    className="country-link"
+                  >
+                    {'view Hotel'}
+                  </Link>
                 </li>
               )
             })
@@ -62,6 +69,12 @@ const CountryDetails = () => {
                     <img src={img} alt={place.name} />
                     <p>Description: {place.description}</p>
                   </div>
+                  <Link
+                    to={`../place-details/${place._id}`}
+                    className="country-link"
+                  >
+                    {'view Place'}
+                  </Link>
                 </li>
               )
             })
