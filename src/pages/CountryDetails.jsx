@@ -6,7 +6,7 @@ const CountryDetails = () => {
   const { id } = useParams()
 
   // State for the country data and selected tab (hotels/places)
-  const [country, setCountry] = useState(null)
+  const [country, setCountry] = useState({})
   const [selectedTab, setSelectedTab] = useState('hotels')
 
   // Fetch country details based on the id from params
@@ -19,7 +19,7 @@ const CountryDetails = () => {
         console.error('Error fetching country details:', error)
       }
     }
-  
+
     getCountryDetails()
   }, [id])
 
