@@ -18,7 +18,7 @@ const EditHotel = ({ user }) => {
   useEffect(() => {
     const fetchHotel = async () => {
       try {
-        const hotelResponse = await Client.get(`/Hotel/${id}`)
+        const hotelResponse = await Client.get(`/hotel/${id}`)
         console.log(hotelResponse.data)
         setHotelData({
           name: hotelResponse.data.name,
@@ -74,7 +74,7 @@ const EditHotel = ({ user }) => {
     }
 
     try {
-      const result = await Client.put(`/Hotel/${id}`, formData, {
+      const result = await Client.put(`/hotel/${id}`, hotelData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       console.log(result.data)

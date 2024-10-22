@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import Client from '../services/api'
 import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const HotelDetails = ({ user }) => {
   const { id } = useParams()
   const [hotel, setHotel] = useState('')
   const [reviewData, setReviewData] = useState({ comment: '', score: 0 })
+
+  let navigate = useNavigate()
 
   const getHotel = async () => {
     try {
@@ -60,6 +63,19 @@ const HotelDetails = ({ user }) => {
 
   const img = `http://localhost:4000/images/${hotel.image}`
 
+  const handleDelete = async () => {
+    try {
+      await Client.delete(`/hotel/${id}`)
+      navigate('/')
+    } catch (error) {
+      console.error('Error deleting hotel:', error)
+    }
+  }
+
+  const handleEdit = () => {
+    navigate(`../edit-hotel/${id}`)
+  }
+
   return (
     <>
       <div
@@ -93,9 +109,36 @@ const HotelDetails = ({ user }) => {
           >
             View Hotel's Website
           </a>
+          {/* Show Delete Button if user role is 'admin' */}
+          {user?.role === 'admin' && (
+            <>
+              <button
+                style={{
+                  padding: '1rem 2rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                  marginBottom: '2rem'
+                }}
+                onClick={handleDelete}
+              >
+                Delete Hotel
+              </button>
+              <button
+                style={{
+                  padding: '1rem 2rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                  marginBottom: '2rem'
+                }}
+                onClick={handleEdit}
+              >
+                Edit Hotel
+              </button>
+            </>
+          )}
         </div>
         <div>
-          <img src={img} alt="img" />
+          <img src={img} alt="img" width="500px" />
         </div>
       </div>
 
