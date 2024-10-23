@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Client from '../services/api'
 import { useNavigate } from 'react-router-dom'
 
-const AddHotel = () => {
+const AddHotel = ({ user }) => {
   // const [name, setName] = useState('');
   // const [location, setLocation] = useState('');
 
@@ -55,7 +55,7 @@ const AddHotel = () => {
     navigate('/')
   }
 
-  return (
+  return user && user.role === 'admin' ? (
     <section className="form-container">
       <h1>Add Hotel</h1>
       <form onSubmit={handleSubmit}>
@@ -104,6 +104,8 @@ const AddHotel = () => {
         </button>
       </form>
     </section>
+  ) : (
+    <div>you are not allowed to access this page</div>
   )
 }
 

@@ -1,18 +1,30 @@
 import { useEffect, useState } from 'react'
 import Client from '../services/api'
 import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-const PlaceDetails = () => {
+const PlaceDetails = ({ user }) => {
   const { id } = useParams()
   const [place, setPlace] = useState('')
   const [reviewData, setReviewData] = useState({ comment: '', score: 0 })
 
+  let navigate = useNavigate()
+
   const getPlace = async () => {
     try {
-      const res = await Client.get(`/Place/${id}`)
+      const res = await Client.get(`/place/${id}`)
       setPlace(res.data)
     } catch (err) {
       console.error('Error fetching place:', err)
+    }
+  }
+
+  const deleteRev = async (delId) => {
+    try {
+      await Client.delete(`/review/delete/${delId}`)
+      getPlace()
+    } catch (err) {
+      console.error('Error deleteing review:', err)
     }
   }
 
@@ -51,6 +63,19 @@ const PlaceDetails = () => {
 
   const img = `http://localhost:4000/images/${place.image}`
 
+  const handleDelete = async () => {
+    try {
+      await Client.delete(`/place/${id}`)
+      navigate('/')
+    } catch (error) {
+      console.error('Error deleting place:', error)
+    }
+  }
+
+  const handleEdit = () => {
+    navigate(`../edit-place/${id}`)
+  }
+
   return (
     <>
       <div
@@ -86,9 +111,36 @@ const PlaceDetails = () => {
           >
             View Place's Website
           </a>
+          {/* Show Delete Button if user role is 'admin' */}
+          {user?.role === 'admin' && (
+            <>
+              <button
+                style={{
+                  padding: '1rem 2rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                  marginBottom: '2rem'
+                }}
+                onClick={handleDelete}
+              >
+                Delete Place
+              </button>
+              <button
+                style={{
+                  padding: '1rem 2rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                  marginBottom: '2rem'
+                }}
+                onClick={handleEdit}
+              >
+                Edit Place
+              </button>
+            </>
+          )}
         </div>
         <div>
-          <img src={img} alt="img" />
+          <img src={img} alt="img" width="500px" />
         </div>
       </div>
 
@@ -106,46 +158,57 @@ const PlaceDetails = () => {
               }}
             >
               <h4>{review.comment} </h4>
-              <h4>{review.score} / 5</h4>
+              <div>
+                <h4>{review.score} / 5</h4>
+                <button
+                  onClick={() => {
+                    deleteRev(review._id)
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
         </ul>
       </div>
 
-      <div style={{ marginTop: '5%', padding: '1%' }}>
-        <form onSubmit={handleSubmit}>
-          <h3>Leave a Review</h3>
-          <br />
-          <div>
-            <textarea
-              name="comment"
-              value={reviewData.comment}
-              onChange={handleChange}
-              required
-              rows="3"
-              style={{ width: '100%', marginBottom: '1rem' }}
-              placeholder={`what do you think about ${place.name} ?`}
-            />
-          </div>
-          <div>
-            <label>Rate Your Experience at {place.name}!</label>
+      {user && (
+        <div style={{ marginTop: '5%', padding: '1%' }}>
+          <form onSubmit={handleSubmit}>
+            <h3>Leave a Review</h3>
             <br />
-            <input
-              className="input"
-              style={{ height: '30px', width: '200px' }}
-              type="number"
-              name="score"
-              value={reviewData.score}
-              onChange={handleChange}
-              min="1"
-              max="5"
-              required
-            />
-          </div>
-          <br />
-          <button type="submit">Submit Review</button>
-        </form>
-      </div>
+            <div>
+              <textarea
+                name="comment"
+                value={reviewData.comment}
+                onChange={handleChange}
+                required
+                rows="3"
+                style={{ width: '100%', marginBottom: '1rem' }}
+                placeholder={`what do you think about ${place.name} ?`}
+              />
+            </div>
+            <div>
+              <label>Rate Your Experience at {place.name}!</label>
+              <br />
+              <input
+                className="input"
+                style={{ height: '30px', width: '200px' }}
+                type="number"
+                name="score"
+                value={reviewData.score}
+                onChange={handleChange}
+                min="1"
+                max="5"
+                required
+              />
+            </div>
+            <br />
+            <button type="submit">Submit Review</button>
+          </form>
+        </div>
+      )}
     </>
   )
 }
