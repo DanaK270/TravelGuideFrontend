@@ -30,6 +30,7 @@ import PlaceDetails from './pages/PlaceDetails'
 import CountryDetails from './pages/CountryDetails'
 import Profile from './pages/Profile'
 import DisplayUsers from './pages/displayUsers'
+import UpdateUsersRole from './components/UpdateUsersRole'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -188,7 +189,10 @@ const App = () => {
               path="/profile/update"
               element={<UpdateProfile user={user} setUser={setUser} />}
             />
-
+            <Route
+              path="/Profile/UpdateUsers/:user_id"
+              element={<UpdateUsersRole />}
+            />
             <Route path="/profile/users" element={<DisplayUsers />} />
 
             <Route path="sign-in" element={<SignIn setUser={setUser} />} />

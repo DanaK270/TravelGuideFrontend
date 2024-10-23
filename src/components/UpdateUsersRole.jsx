@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
-const UpdateUsersRole = ({ user, setUser }) => {
+const UpdateUsersRole = () => {
+  const { userId } = useParams()
   const [userData, setUserData] = useState({
     name: user.name,
     email: user.email,
@@ -10,6 +12,21 @@ const UpdateUsersRole = ({ user, setUser }) => {
     id: user.id
   })
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/Profile/${userId}`
+        )
+        setUserData(response.data.user)
+      } catch (err) {
+        setError('Error fetching user data')
+        console.error(err)
+      }
+    }
+    fetchUser()
+  }, [userId])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -23,10 +40,10 @@ const UpdateUsersRole = ({ user, setUser }) => {
     e.preventDefault()
     try {
       const response = await axios.put(
-        `http://localhost:4000/Profile/update/${userData.id}`,
+        `http://localhost:4000/Profile/UpdateUsers/${userId}`,
         userData
       )
-      setUser(response.data)
+      setUser(response.data.user)
       navigate(`/`)
     } catch (err) {
       console.error('Error updating profile:', err)
