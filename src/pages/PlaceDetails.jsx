@@ -116,7 +116,7 @@ const PlaceDetails = ({ user }) => {
             justifyContent: 'center'
           }}
         >
-          <h1 style={{ fontSize: '4rem' }}>{place.name}</h1>
+          <h1 style={{ fontSize: '3rem' }}>{place.name}</h1>
           <br />
           <br />
           {
@@ -181,7 +181,7 @@ const PlaceDetails = ({ user }) => {
           )}
         </div>
         <div>
-          <img src={img} alt="img" width="500px" />
+          <img src={img} alt="img" width="600px" />
         </div>
       </div>
 

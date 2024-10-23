@@ -86,7 +86,7 @@ const CountryDetails = ({ user }) => {
             Delete Country
           </button>
         )}
-        <h2 style={{ marginBottom: '2rem' }}>
+        <h2 style={{ marginBottom: '5rem', marginTop: '2rem' }}>
           {selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)}
         </h2>
 
@@ -104,8 +104,9 @@ const CountryDetails = ({ user }) => {
                     justifyContent: 'space-around'
                   }}
                 >
-                  <div>
+                  <div style={{ width: '500px' }}>
                     <h2>{hotel.name}</h2>
+                    <br />
                     <Link
                       to={`../hotel-details/${hotel._id}`}
                       className="country-link"
@@ -113,7 +114,7 @@ const CountryDetails = ({ user }) => {
                       {'view Hotel'}
                     </Link>
                   </div>
-                  <img src={img} alt={hotel.name} width="300px" />
+                  <img src={img} alt={hotel.name} width="500px" />
                 </li>
               )
             })
@@ -129,10 +130,11 @@ const CountryDetails = ({ user }) => {
                     justifyContent: 'space-around'
                   }}
                 >
-                  <div>
-                    <h3>Place: {place.name}</h3>
-
-                    <p>Description: {place.description}</p>
+                  <div style={{ width: '500px' }}>
+                    <h2>{place.name}</h2>
+                    <br />
+                    <p>{place.description}</p>
+                    <br />
                     <Link
                       to={`../place-details/${place._id}`}
                       className="country-link"
@@ -140,7 +142,7 @@ const CountryDetails = ({ user }) => {
                       {'view Place'}
                     </Link>
                   </div>
-                  <img src={img} alt={place.name} width="300px" />
+                  <img src={img} alt={place.name} width="500px" />
                 </li>
               )
             })
