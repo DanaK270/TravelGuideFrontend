@@ -114,12 +114,16 @@ const App = () => {
         setForm({ ...form, num_work_days: params.userInput }),
       path: 'end'
     },
+
     end: {
       message: 'These are the best fits for you!',
       component: (
         <div>
           <p>Activities: {form.pet_choices}</p>
           <p>Season: {form.num_work_days}</p>
+
+          <p>Destinations: Bali, Indonisia | Bora Bora | Hawaii, USA</p>
+          <h6>Thank you for choosing Travel Trove✈️!</h6>
         </div>
       ),
       options: ['New Application'],
@@ -135,7 +139,12 @@ const App = () => {
           settings={{
             voice: { disabled: false },
             botBubble: { simStream: true },
-            chatHistory: { storageKey: 'example_basic_form' }
+            chatHistory: { storageKey: 'example_basic_form' },
+            audio: {disabled: false, defaultToggledOn: true, tapToPlay: true},
+            theme: {
+              primaryColor: "#2A2A2A",
+              secondaryColor: "#2A2A2A",
+            },
           }}
           flow={flow}
         />
