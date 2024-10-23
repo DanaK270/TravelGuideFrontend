@@ -4,11 +4,7 @@ import { Link } from 'react-router-dom'
 import { FaSun, FaMoon } from 'react-icons/fa'
 import { DarkModeContext } from '../contexts/DarkModeContext'
 
-<<<<<<< HEAD
-export default function Navbar({ user }) {
-=======
 export default function Navbar({ handleLogOut }) {
->>>>>>> 451f247a30d8672a682ec48c5b90b54e3d2be1a4
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext)
   return (
     <header className="navbar">
