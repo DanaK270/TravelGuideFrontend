@@ -32,7 +32,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   let navigate = useNavigate()
   const [form, setForm] = useState({})
-  
+
   const handleLogOut = () => {
     setUser(null)
     localStorage.clear()
@@ -124,7 +124,7 @@ const App = () => {
       component: (
         <div>
           <p>Activities: {form.pet_choices}</p>
-          <p>Season: {form.num_work_days}</p>
+          <p>Continents: {form.num_work_days}</p>
 
           <p>Destinations: Bali, Indonisia | Bora Bora | Hawaii, USA</p>
           <h6>Thank you for choosing Travel Trove✈️!</h6>
@@ -144,11 +144,11 @@ const App = () => {
             voice: { disabled: false },
             botBubble: { simStream: true },
             chatHistory: { storageKey: 'example_basic_form' },
-            audio: {disabled: false, defaultToggledOn: true, tapToPlay: true},
+            audio: { disabled: false, defaultToggledOn: true, tapToPlay: true },
             theme: {
-              primaryColor: "#2A2A2A",
-              secondaryColor: "#2A2A2A",
-            },
+              primaryColor: '#2A2A2A',
+              secondaryColor: '#2A2A2A'
+            }
           }}
           flow={flow}
         />
