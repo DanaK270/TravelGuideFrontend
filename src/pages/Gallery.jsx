@@ -1,14 +1,13 @@
-import React from 'react';
+import React from 'react'
 
-
-const Gallery = () => {
+const Gallery = ({ user }) => {
   const images = [
     'https://thumbs.dreamstime.com/b/car-full-suitcases-bags-to-go-summer-vacation-road-trip-315608403.jpg',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLJMUhGKETycAiy6wisxPdswptky9t5g3kzw&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo0gSKBQCko9MoPCu5ek4Ux2dJqRuPC7UVJw&s',
-  ];
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo0gSKBQCko9MoPCu5ek4Ux2dJqRuPC7UVJw&s'
+  ]
 
-  return (
+  return user ? (
     <section className="gallery-container">
       <h1>Gallery</h1>
       <div className="gallery">
@@ -22,7 +21,12 @@ const Gallery = () => {
         ))}
       </div>
     </section>
-  );
-};
+  ) : (
+    <>
+      <h3>Oops! You must be signed in to do that!</h3>
+      <button onClick={() => navigate('/sign-in')}>Sign In</button>
+    </>
+  )
+}
 
-export default Gallery;
+export default Gallery

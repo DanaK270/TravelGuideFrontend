@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import axios from 'axios'
 // import StripeWrapper from './StripePayment'
+import { useNavigate } from 'react-router-dom'
 
-const BookFlight = () => {
+const BookFlight = ({ user }) => {
   const [flightDetails, setFlightDetails] = useState({
     flightNumber: '',
     date: '',
     price: 0
   })
+
+  let navigate = useNavigate()
 
   const handleChange = (e) => {
     setFlightDetails({ ...flightDetails, [e.target.name]: e.target.value })
@@ -22,7 +25,7 @@ const BookFlight = () => {
     alert('Flight booked successfully!')
   }
 
-  return (
+  return user ? (
     <div>
       <form>
         <input
@@ -41,6 +44,11 @@ const BookFlight = () => {
       </form>
       {/* <StripeWrapper onPaymentSuccess={handlePaymentSuccess} price={flightDetails.price} /> */}
     </div>
+  ) : (
+    <>
+      <h3>Oops! You must be signed in to do that!</h3>
+      <button onClick={() => navigate('/sign-in')}>Sign In</button>
+    </>
   )
 }
 

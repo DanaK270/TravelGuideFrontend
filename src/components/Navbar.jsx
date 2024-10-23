@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { FaSun, FaMoon } from 'react-icons/fa'
 import { DarkModeContext } from '../contexts/DarkModeContext'
 
-export default function Navbar() {
+export default function Navbar({ handleLogOut }) {
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext)
 
   return (
@@ -26,6 +26,8 @@ export default function Navbar() {
         <Link to="/flight-tracking">Flight Tracking</Link>
         <Link to="/countries">Countries</Link>
         <Link to="/community-chat">Community Chat</Link>
+        <Link to="/profile">profile</Link>
+        <button onClick={handleLogOut}>Logout</button>
       </nav>
       <button onClick={toggleDarkMode} className="dark-mode-toggle">
         {darkMode ? <FaSun /> : <FaMoon />}

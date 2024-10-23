@@ -1,82 +1,77 @@
 import { useState, useEffect } from 'react';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client'; // Ensure correct import
+import { useNavigate } from 'react-router-dom';
 
-const socket = io('http://localhost:5000'); // Connect to backend server
+const socket = io('http://localhost:5000', {
+  transports: ['websocket'], // Ensure WebSocket is used
+  reconnectionAttempts: 5, // Retry on disconnect
+  timeout: 10000, // Connection timeout
+});
 
-const CommunityChat = () => {
-  const [message, setMessage] = useState(''); // Input message
-  const [messages, setMessages] = useState([]); // List of chat messages
+const CommunityChat = ({ user }) => {
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+  const navigate = useNavigate();
 
-  // Load previous messages and listen for new ones
   useEffect(() => {
+    // Confirm connection
+    socket.on('connect', () => {
+      console.log('Connected to chat server.');
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from chat server.');
+    });
+
+    // Fetch previous messages
     socket.on('previousMessages', (prevMessages) => {
       console.log('Previous messages:', prevMessages);
       setMessages(prevMessages);
     });
 
+    // Listen for new messages
     socket.on('message', (newMessage) => {
       console.log('New message received:', newMessage);
       setMessages((prev) => [...prev, newMessage]);
     });
 
-    socket.on('error', (err) => {
-      console.error('Socket error:', err);
-      alert(err); // Display the error to the user
-    });
-
-    // Clean up listeners on component unmount
     return () => {
+      socket.off('connect');
+      socket.off('disconnect');
       socket.off('previousMessages');
       socket.off('message');
-      socket.off('error');
     };
   }, []);
 
-  // Verify userId on page load and ensure it’s valid
-  useEffect(() => {
-    const storedUserId = localStorage.getItem('userId');
-    if (!storedUserId || storedUserId.length !== 24) {
-      alert('User ID is missing or invalid. Please log in again.');
-      console.error('Invalid user ID on load:', storedUserId);
-    } else {
-      console.log('Valid userId retrieved:', storedUserId);
-    }
-  }, []);
-
   const sendMessage = (e) => {
-    e.preventDefault(); // Prevent page refresh
+    e.preventDefault();
 
-    const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
-    console.log('Retrieved userId:', userId); // Log the retrieved userId
-
-    // Validate the userId to ensure it's valid
+    const userId = localStorage.getItem('userId');
     if (!userId || userId.length !== 24) {
       alert('Invalid user ID. Please log in again.');
-      console.error('Invalid user ID. Found:', userId); // Log for debugging
-      return; // Stop if the userId is invalid
+      console.error('Invalid user ID. Found:', userId);
+      return;
     }
 
     const msg = {
       content: message,
       user: userId,
-      timestamp: new Date(), // Add timestamp to the message
+      timestamp: new Date(),
     };
-    console.log('Sending message:', msg); // Log the message before sending
 
-    // Send the message to the server and handle acknowledgment
     socket.emit('message', msg, (ack) => {
-      if (ack && ack.status === 'ok') {
-        console.log('Message successfully saved.');
+      if (ack?.status === 'ok') {
+        console.log('Message successfully sent.');
       } else {
-        alert('Message could not be saved.');
-        console.error('Server error:', ack);
+        console.error('Message send failed:', ack);
+        alert('Message could not be sent.');
       }
     });
 
-    setMessage(''); // Clear input field
+    setMessage('');
   };
 
-  return (
+  return user ? (
     <div className="chat-container">
       <h1>Community Chat</h1>
       <div className="chat-messages">
@@ -100,6 +95,11 @@ const CommunityChat = () => {
         <button type="submit">Send</button>
       </form>
     </div>
+  ) : (
+    <>
+      <h3>You must be signed in to chat.</h3>
+      <button onClick={() => navigate('/sign-in')}>Sign In</button>
+    </>
   );
 };
 

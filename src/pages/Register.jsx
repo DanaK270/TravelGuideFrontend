@@ -87,7 +87,7 @@ const Register = () => {
             />
           </div>
 
-          <div>
+          {/* <div>
             <label htmlFor="role">Role</label>
             <select
               name="role"
@@ -98,7 +98,7 @@ const Register = () => {
               <option value="user">User</option>
               <option value="admin">Admin</option>
             </select>
-          </div>
+          </div> */}
 
           <button
             disabled={

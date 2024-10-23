@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Client from '../services/api'
 import { useNavigate } from 'react-router-dom'
 
-const AddPlace = () => {
+const AddPlace = ({ user }) => {
   const navigate = useNavigate()
   const [countries, setCountries] = useState([])
 
@@ -53,7 +53,7 @@ const AddPlace = () => {
     navigate('/')
   }
 
-  return (
+  return user && user.role === 'admin' ? (
     <section className="form-container">
       <h1>Add Place</h1>
       <form onSubmit={handleSubmit}>
@@ -111,6 +111,8 @@ const AddPlace = () => {
         </button>
       </form>
     </section>
+  ) : (
+    <div>you are not allowed to access this page</div>
   )
 }
 

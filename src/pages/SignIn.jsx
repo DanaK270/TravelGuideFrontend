@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { SignInUser } from '../services/Auth'
 import { useNavigate } from 'react-router-dom'
-import Navbar from '../components/Navbar'
 
 const SignIn = ({ setUser }) => {
-  let navigate = useNavigate()
-  const initState = { email: '', password: '' }
+  const navigate = useNavigate()
   const [formValues, setFormValues] = useState({ email: '', password: '' })
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -16,52 +14,51 @@ const SignIn = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const payload = await SignInUser(formValues)
-      setFormValues(initState)
-      setUser(payload)
+      const user = await SignInUser(formValues)
 
-      const userId = payload.id
-      localStorage.setItem('userId', userId)
-      console.log('User ID stored:', userId)
+      setFormValues({ email: '', password: '' })
+      setUser(user)
 
-      navigate('/')
+      localStorage.setItem('userId', user.id)
+      console.log('Login successful. User ID and tokens stored.')
+
+      navigate('/community-chat')
     } catch (err) {
-      setErrorMessage('wrong credintilas, sign in falied!')
+      console.error('Login failed:', err)
+      setErrorMessage('Wrong credentials, sign in failed!')
     }
   }
 
   return (
     <div>
-      <div>
-        <h2>Sign In</h2>
-        {errorMessage && <p>{errorMessage}</p>}
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              onChange={handleChange}
-              name="email"
-              type="email"
-              placeholder="example@example.com"
-              value={formValues.email}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              onChange={handleChange}
-              type="password"
-              name="password"
-              value={formValues.password}
-              required
-            />
-          </div>
-          <button disabled={!formValues.email || !formValues.password}>
-            Sign In
-          </button>
-        </form>
-      </div>
+      <h2>Sign In</h2>
+      {errorMessage && <p>{errorMessage}</p>}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formValues.email}
+            onChange={handleChange}
+            placeholder="example@example.com"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            value={formValues.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button disabled={!formValues.email || !formValues.password}>
+          Sign In
+        </button>
+      </form>
     </div>
   )
 }
