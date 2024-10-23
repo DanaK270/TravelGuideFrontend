@@ -3,11 +3,9 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 
-const displayUsers = ({ user, setUser }) => {
-  console.log(user.name)
-
+const displayUsers = ({}) => {
   const navigate = useNavigate()
-  const [profileData, setProfileData] = useState([
+  const [userData, SetUserData] = useState([
     {
       name: '',
       email: '',
@@ -16,33 +14,37 @@ const displayUsers = ({ user, setUser }) => {
   ])
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchUser = async () => {
       try {
         const response = await axios.get(`http://localhost:4000/Profile/users`)
-        setProfileData(response.data.user)
+        SetUserData(response.data)
       } catch (err) {
         throw err
       }
     }
-    fetchUserProfile()
+    fetchUser()
   }, [])
 
-  return profileData.map((users) => (
-    <div key={users.id}>
-      <div>
-        <h3>name: </h3>
-        {users.name}
-      </div>
-      <div>
-        <h3>email: </h3>
-        {users.email}
-      </div>
-      <div>
-        <h3>role: </h3>
-        {users.role}
-      </div>
+  return (
+    <div>
+      {userData?.map((users) => (
+        <div key={users.id}>
+          <div>
+            <h3>name: </h3>
+            {users.name}
+          </div>
+          <div>
+            <h3>email: </h3>
+            {users.email}
+          </div>
+          <div>
+            <h3>role: </h3>
+            {users.role}
+          </div>
+        </div>
+      ))}
     </div>
-  ))
+  )
 }
 
 export default displayUsers
