@@ -14,6 +14,8 @@ const FlightTracking = () => {
     e.preventDefault();
     try {
       const response = await axios.get(`/flight/track?flightNumber=${flightNumber}`);
+      console.log('Frontend Flight Data:', response.data); // Log to inspect data
+
       const flight = response.data;
       if (flight) {
         setFlightData(flight);
@@ -49,14 +51,14 @@ const FlightTracking = () => {
       {flightData && (
         <div className="flight-info">
           <h2>Flight Details</h2>
-          <p><strong>Flight Number:</strong> {flightData.flight.iata}</p>
-          <p><strong>Airline:</strong> {flightData.airline.name}</p>
-          <p><strong>Status:</strong> {flightData.flight_status}</p>
+          <p><strong>Flight Number:</strong> {flightData?.flight?.iata || 'N/A'}</p>
+          <p><strong>Airline:</strong> {flightData?.airline?.name || 'N/A'}</p>
+          <p><strong>Status:</strong> {flightData?.flight_status || 'N/A'}</p>
           <p>
-            <strong>Departure:</strong> {flightData.departure.airport} at {flightData.departure.scheduled}
+            <strong>Departure:</strong> {flightData?.departure?.airport || 'N/A'} at {flightData?.departure?.scheduled || 'N/A'}
           </p>
           <p>
-            <strong>Arrival:</strong> {flightData.arrival.airport} at {flightData.arrival.scheduled}
+            <strong>Arrival:</strong> {flightData?.arrival?.airport || 'N/A'} at {flightData?.arrival?.scheduled || 'N/A'}
           </p>
         </div>
       )}
