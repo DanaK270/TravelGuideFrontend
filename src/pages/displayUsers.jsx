@@ -28,20 +28,18 @@ const displayUsers = ({ user, setUser }) => {
   }, [])
 
   return profileData.map((users) => (
-    <div>
+    <div key={users.id}>
       <div>
-        <div>
-          <h3>name: </h3>
-          {users.name}
-        </div>
-        <div>
-          <h3>email: </h3>
-          {users.email}
-        </div>
-        <div>
-          <h3>role: </h3>
-          {users.role}
-        </div>
+        <h3>name: </h3>
+        {users.name}
+      </div>
+      <div>
+        <h3>email: </h3>
+        {users.email}
+      </div>
+      <div>
+        <h3>role: </h3>
+        {users.role}
       </div>
     </div>
   ))
