@@ -1,33 +1,33 @@
-import { useState } from 'react';
-import { SignInUser } from '../services/Auth';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { SignInUser } from '../services/Auth'
+import { useNavigate } from 'react-router-dom'
 
 const SignIn = ({ setUser }) => {
-  const navigate = useNavigate();
-  const [formValues, setFormValues] = useState({ email: '', password: '' });
-  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate()
+  const [formValues, setFormValues] = useState({ email: '', password: '' })
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleChange = (e) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value });
-  };
+    setFormValues({ ...formValues, [e.target.name]: e.target.value })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const user = await SignInUser(formValues);
+      const user = await SignInUser(formValues)
 
-      setFormValues({ email: '', password: '' });
-      setUser(user);
+      setFormValues({ email: '', password: '' })
+      setUser(user)
 
-      localStorage.setItem('userId', user.id);
-      console.log('Login successful. User ID and tokens stored.');
+      localStorage.setItem('userId', user.id)
+      console.log('Login successful. User ID and tokens stored.')
 
-      navigate('/community-chat');
+      navigate('/community-chat')
     } catch (err) {
-      console.error('Login failed:', err);
-      setErrorMessage('Wrong credentials, sign in failed!');
+      console.error('Login failed:', err)
+      setErrorMessage('Wrong credentials, sign in failed!')
     }
-  };
+  }
 
   return (
     <div>
@@ -60,7 +60,7 @@ const SignIn = ({ setUser }) => {
         </button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default SignIn;
+export default SignIn

@@ -16,6 +16,7 @@ import AddPlace from './pages/AddPlace'
 import BookFlight from './components/BookFlight'
 import BookHotel from './components/BookHotel'
 import UserBlog from './components/UserBlog'
+import UpdateProfile from './components/UpdateProfile'
 import FlightTracking from './components/FlightTracking'
 import Countries from './pages/Countries'
 import CommunityChat from './components/CommunityChat'
@@ -27,6 +28,7 @@ import Gallery from './pages/Gallery'
 import HotelDetails from './pages/HotelDetails'
 import PlaceDetails from './pages/PlaceDetails'
 import CountryDetails from './pages/CountryDetails'
+import Profile from './pages/Profile'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -179,6 +181,13 @@ const App = () => {
             element={<Layout user={user} handleLogOut={handleLogOut} />}
           >
             <Route index element={<Home user={user} />} />
+
+            <Route path="/profile" element={<Profile user={user} />} />
+            <Route
+              path="/profile/update"
+              element={<UpdateProfile user={user} setUser={setUser} />}
+            />
+
             <Route path="sign-in" element={<SignIn setUser={setUser} />} />
             <Route path="register" element={<Register />} />
             <Route path="about-us" element={<AboutUs />} />
