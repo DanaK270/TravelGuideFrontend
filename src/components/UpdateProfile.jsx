@@ -1,29 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const UpdateProfile = ({ user, setUser }) => {
-  const { userId } = useParams()
   const [profileData, setProfileData] = useState({
-    name: '',
-    email: '',
-    role: ''
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    id: user.id
   })
   const navigate = useNavigate()
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/Profile/${userId}`
-        )
-        setProfileData(response.data.user)
-      } catch (err) {
-        console.error('Error fetching profile:', err)
-      }
-    }
-    fetchUserProfile()
-  }, [userId])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -37,17 +23,17 @@ const UpdateProfile = ({ user, setUser }) => {
     e.preventDefault()
     try {
       const response = await axios.put(
-        `http://localhost:4000/Profile/update/${userId}`,
+        `http://localhost:4000/Profile/update/${profileData.id}`,
         profileData
       )
-      setUser(response.data.user)
+      setUser(response.data)
       navigate(`/`)
     } catch (err) {
       console.error('Error updating profile:', err)
     }
   }
 
-  return (
+  return user ? (
     <div>
       <h2>Update Profile</h2>
       <form onSubmit={handleSubmit}>
@@ -87,7 +73,7 @@ const UpdateProfile = ({ user, setUser }) => {
         <button type="submit">Update Profile</button>
       </form>
     </div>
-  )
+  ) : null
 }
 
 export default UpdateProfile

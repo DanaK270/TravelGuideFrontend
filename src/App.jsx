@@ -29,6 +29,7 @@ import HotelDetails from './pages/HotelDetails'
 import PlaceDetails from './pages/PlaceDetails'
 import CountryDetails from './pages/CountryDetails'
 import Profile from './pages/Profile'
+
 const App = () => {
   const [user, setUser] = useState(null)
   let navigate = useNavigate()
@@ -181,12 +182,9 @@ const App = () => {
           >
             <Route index element={<Home user={user} />} />
 
+            <Route path="/profile" element={<Profile user={user} />} />
             <Route
-              path="/profile/:userId"
-              element={<Profile user={user} setUser={setUser} />}
-            />
-            <Route
-              path="/profile/update/:userId"
+              path="/profile/update"
               element={<UpdateProfile user={user} setUser={setUser} />}
             />
 
