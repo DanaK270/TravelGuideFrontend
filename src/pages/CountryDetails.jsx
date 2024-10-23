@@ -113,7 +113,7 @@ const CountryDetails = ({ user }) => {
                       {'view Hotel'}
                     </Link>
                   </div>
-                  <img src={img} alt={hotel.name} />
+                  <img src={img} alt={hotel.name} width="300px" />
                 </li>
               )
             })
@@ -140,7 +140,7 @@ const CountryDetails = ({ user }) => {
                       {'view Place'}
                     </Link>
                   </div>
-                  <img src={img} alt={place.name} />
+                  <img src={img} alt={place.name} width="300px" />
                 </li>
               )
             })
