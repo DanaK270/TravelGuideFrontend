@@ -27,12 +27,13 @@ import HotelDetails from './pages/HotelDetails'
 import PlaceDetails from './pages/PlaceDetails'
 import CountryDetails from './pages/CountryDetails'
 import Profile from './pages/Profile'
+import Bookmarks from './pages/Bookmarks'
 
 const App = () => {
   const [user, setUser] = useState(null)
   let navigate = useNavigate()
   const [form, setForm] = useState({})
-  
+
   const handleLogOut = () => {
     setUser(null)
     localStorage.clear()
@@ -144,11 +145,11 @@ const App = () => {
             voice: { disabled: false },
             botBubble: { simStream: true },
             chatHistory: { storageKey: 'example_basic_form' },
-            audio: {disabled: false, defaultToggledOn: true, tapToPlay: true},
+            audio: { disabled: false, defaultToggledOn: true, tapToPlay: true },
             theme: {
-              primaryColor: "#2A2A2A",
-              secondaryColor: "#2A2A2A",
-            },
+              primaryColor: '#2A2A2A',
+              secondaryColor: '#2A2A2A'
+            }
           }}
           flow={flow}
         />
@@ -196,6 +197,7 @@ const App = () => {
               path="country-details/:id"
               element={<CountryDetails user={user} />}
             />
+            <Route path="bookmarks/:id" element={<Bookmarks />} />
           </Route>
         </Routes>
       </div>
