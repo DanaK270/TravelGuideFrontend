@@ -7,6 +7,7 @@ const PlaceDetails = ({ user }) => {
   const { id } = useParams()
   const [place, setPlace] = useState('')
   const [reviewData, setReviewData] = useState({ comment: '', score: 0 })
+  const [bookMsg, setBookMsg] = useState('')
 
   let navigate = useNavigate()
 
@@ -22,7 +23,9 @@ const PlaceDetails = ({ user }) => {
   const deleteRev = async (delId) => {
     try {
       await Client.delete(`/review/delete/${delId}`)
-      getPlace()
+      const placeCopy = { ...place }
+      placeCopy.reviews.splice(idx, 1)
+      setPlace(placeCopy)
     } catch (err) {
       console.error('Error deleteing review:', err)
     }
@@ -50,7 +53,10 @@ const PlaceDetails = ({ user }) => {
       })
 
       //get place again to get the updated data (with the newly added review!)
-      getPlace()
+      // getPlace()
+      const placeCopy = { ...place }
+      placeCopy.reviews.splice(idx, 1)
+      setPlace(placeCopy)
       setReviewData({ comment: '', score: 0 })
     } catch (err) {
       console.error('Error submitting review:', err)
@@ -74,6 +80,23 @@ const PlaceDetails = ({ user }) => {
 
   const handleEdit = () => {
     navigate(`../edit-place/${id}`)
+  }
+
+  const handleBookmarkAdd = async () => {
+    // setBookmark({
+    //   user: user.id,
+    //   hotel: id
+    // })
+    try {
+      await Client.post(`/bookmark`, {
+        user: user.id,
+        place: id
+      })
+
+      setBookMsg('added to bookmarks')
+    } catch (error) {
+      console.error('Error adding bookmark:', error)
+    }
   }
 
   return (
@@ -136,6 +159,24 @@ const PlaceDetails = ({ user }) => {
               >
                 Edit Place
               </button>
+            </>
+          )}
+
+          {/* Show Book Button if user role is 'user' */}
+          {user?.role === 'user' && (
+            <>
+              <button
+                style={{
+                  padding: '1rem 2rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                  marginBottom: '2rem'
+                }}
+                onClick={handleBookmarkAdd}
+              >
+                Add to Bookmarks
+              </button>
+              <h3>{bookMsg}</h3>
             </>
           )}
         </div>
