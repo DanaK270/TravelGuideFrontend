@@ -20,7 +20,7 @@ const PlaceDetails = ({ user }) => {
     }
   }
 
-  const deleteRev = async (delId) => {
+  const deleteRev = async (delId, idx) => {
     try {
       await Client.delete(`/review/delete/${delId}`)
       const placeCopy = { ...place }
@@ -53,10 +53,10 @@ const PlaceDetails = ({ user }) => {
       })
 
       //get place again to get the updated data (with the newly added review!)
-      // getPlace()
-      const placeCopy = { ...place }
-      placeCopy.reviews.splice(idx, 1)
-      setPlace(placeCopy)
+      getPlace()
+      // const placeCopy = { ...place }
+      // placeCopy.reviews.splice(idx, 1)
+      // setPlace(placeCopy)
       setReviewData({ comment: '', score: 0 })
     } catch (err) {
       console.error('Error submitting review:', err)
@@ -188,7 +188,7 @@ const PlaceDetails = ({ user }) => {
       <div style={{ marginTop: '5%' }}>
         <ul className="countries-list">
           <h2 style={{ marginLeft: '2%' }}>Reviews</h2>
-          {place.reviews?.map((review) => (
+          {place.reviews?.map((review, index) => (
             <li
               key={review.id}
               className="country-item"
@@ -203,7 +203,7 @@ const PlaceDetails = ({ user }) => {
                 <h4>{review.score} / 5</h4>
                 <button
                   onClick={() => {
-                    deleteRev(review._id)
+                    deleteRev(review._id, index)
                   }}
                 >
                   Delete
