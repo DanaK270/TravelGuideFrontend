@@ -9,7 +9,8 @@ const displayUsers = ({}) => {
     {
       name: '',
       email: '',
-      role: ''
+      role: '',
+      id: ''
     }
   ])
 
