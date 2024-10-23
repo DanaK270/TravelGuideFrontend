@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom'
 import { FaSun, FaMoon } from 'react-icons/fa'
 import { DarkModeContext } from '../contexts/DarkModeContext'
 
-export default function Navbar({ handleLogOut }) {
+export default function Navbar({ handleLogOut, user }) {
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext)
+
+  console.log(user)
 
   return (
     <header className="navbar">
@@ -27,6 +29,7 @@ export default function Navbar({ handleLogOut }) {
         <Link to="/countries">Countries</Link>
         <Link to="/community-chat">Community Chat</Link>
         <Link to="/profile">profile</Link>
+        <Link to={`/bookmarks/${user?.id}`}>Bookmarks</Link>
         <button onClick={handleLogOut}>Logout</button>
       </nav>
       <button onClick={toggleDarkMode} className="dark-mode-toggle">
