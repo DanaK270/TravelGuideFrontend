@@ -53,10 +53,10 @@ const HotelDetails = ({ user }) => {
       })
 
       //get hotel again to get the updated data (with the newly added review!)
-      // getHotel()
-      const hotelCopy = { ...hotel }
-      hotelCopy.reviews.splice(idx, 1)
-      setHotel(hotelCopy)
+      getHotel()
+      // const hotelCopy = { ...hotel }
+      // hotelCopy.reviews.splice(idx, 1)
+      // setHotel(hotelCopy)
       setReviewData({ comment: '', score: 0 })
     } catch (err) {
       console.error('Error submitting review:', err)
