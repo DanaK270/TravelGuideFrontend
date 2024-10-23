@@ -23,6 +23,22 @@ const Bookmarks = () => {
     }
   }
 
+  const handleDelete = async (bookmarkId, idx) => {
+    try {
+      await Client.delete(`/bookmark/${bookmarkId}`)
+
+      const bookmarksCopy = [...bookmarks]
+      bookmarksCopy.splice(idx, 1)
+      setBookmarks(bookmarksCopy)
+
+      // setLoading(false)
+    } catch (err) {
+      console.error('Error fetching bookmarks:', err)
+      // setError('Failed to fetch bookmarks')
+      // setLoading(false)
+    }
+  }
+
   useEffect(() => {
     fetchBookmarks()
   }, [])
@@ -34,10 +50,13 @@ const Bookmarks = () => {
     <div className="countries-container">
       <h2 className="countries-title">Bookmarks</h2>
       <ul className="countries-list">
-        {bookmarks?.map((bookmark) => (
-          <li key={bookmark.id} className="country-item">
+        {bookmarks?.map((bookmark, index) => (
+          <li key={bookmark._id} className="country-item">
             {bookmark.place && <h3>place: {bookmark.place.name}</h3>}
             {bookmark.hotel && <h3>Hotel: {bookmark.hotel.name}</h3>}
+            <button onClick={() => handleDelete(bookmark._id, index)}>
+              Delete Bookmark
+            </button>
           </li>
         ))}
       </ul>
