@@ -29,6 +29,7 @@ import HotelDetails from './pages/HotelDetails'
 import PlaceDetails from './pages/PlaceDetails'
 import CountryDetails from './pages/CountryDetails'
 import Profile from './pages/Profile'
+import displayUsers from './pages/displayUsers'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -187,6 +188,8 @@ const App = () => {
               path="/profile/update"
               element={<UpdateProfile user={user} setUser={setUser} />}
             />
+
+            <Route path="/profile/users" element={<displayUsers />} />
 
             <Route path="sign-in" element={<SignIn setUser={setUser} />} />
             <Route path="register" element={<Register />} />
