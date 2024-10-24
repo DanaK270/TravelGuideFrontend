@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
@@ -5,6 +6,7 @@ import Slider from "react-slick";
 export default function Home({ user }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+
 
   const carouselSettings = {
     dots: true,
@@ -40,30 +42,9 @@ export default function Home({ user }) {
         </div>
       </Slider>
 
+
       <div className="content-overlay">
-        {user?.role === "admin" && (
-          <>
-            <button className="sidebar-toggle" onClick={toggleSidebar}>
-              ☰
-            </button>
-            <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-              <div className="add-features">
-                <h3>Add Features</h3>
-                <div className="feature-links">
-                  <Link to="/add-country" className="feature-link">
-                    Add Country
-                  </Link>
-                  <Link to="/add-hotel" className="feature-link">
-                    Add Hotel
-                  </Link>
-                  <Link to="/add-place" className="feature-link">
-                    Add Place
-                  </Link>
-                </div>
-              </div>
-            </aside>
-          </>
-        )}
+
 
         <main className="main-content">
           <div className="text-container">
@@ -76,6 +57,50 @@ export default function Home({ user }) {
           </div>
         </main>
       </div>
+=======
+      {/* Content Overlay */}
+      {/* <div className="content-overlay"> */}
+      {/* <button className="sidebar-toggle" onClick={toggleSidebar}>
+          ☰
+        </button> */}
+
+      {/* Sidebar */}
+      {/* <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+          <div className="add-features">
+            <h2>Add Features</h2>
+            <br />
+            <div className="feature-links">
+              <Link
+                to="/add-country"
+                className="feature-link"
+                style={{ textDecoration: 'none', fontSize: '20px' }}
+              >
+                Add Country
+              </Link>
+              <br />
+              <br />
+              <Link
+                to="/add-hotel"
+                className="feature-link"
+                style={{ textDecoration: 'none', fontSize: '20px' }}
+              >
+                Add Hotel
+              </Link>
+              <br />
+              <br />
+              <Link
+                to="/add-place"
+                className="feature-link"
+                style={{ textDecoration: 'none', fontSize: '20px' }}
+              >
+                Add Place
+              </Link>
+            </div>
+          </div>
+        </aside> */}
+
+      {/* Main Content */}
     </div>
-  );
+    // </div>
+  )
 }
