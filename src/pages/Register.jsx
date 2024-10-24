@@ -1,38 +1,49 @@
 import { useState } from 'react';
-import { RegisterUser } from '../services/Auth';
+import { RegisterUser } from '../services/Auth'; // Import RegisterUser service
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 const Register = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const initState = {
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'user', // default is user
+    role: 'user', // Default role is 'user'
   };
   const [formValues, setFormValues] = useState(initState);
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Handle form field changes
   const handleChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formValues.password !== formValues.confirmPassword) {
+      setErrorMessage('Passwords do not match.');
+      return;
+    }
+
     try {
+      // Call the registration service
       await RegisterUser({
         name: formValues.name,
         email: formValues.email,
         password: formValues.password,
         role: formValues.role,
       });
+
+      // Clear the form and navigate to sign-in page
       setFormValues(initState);
       navigate('/sign-in');
     } catch (err) {
+      console.error('Registration failed:', err);
       setErrorMessage(
-        'Registration failed! Please try again with different credentials.'
+        err.msg || 'Registration failed! Please try again with different credentials.'
       );
     }
   };
@@ -47,11 +58,11 @@ const Register = () => {
           <div style={inputGroupStyle}>
             <label htmlFor="name" style={labelStyle}>Name</label>
             <input
-              onChange={handleChange}
-              name="name"
               type="text"
+              name="name"
               placeholder="John Smith"
               value={formValues.name}
+              onChange={handleChange}
               required
               style={inputStyle}
             />
@@ -59,11 +70,11 @@ const Register = () => {
           <div style={inputGroupStyle}>
             <label htmlFor="email" style={labelStyle}>Email</label>
             <input
-              onChange={handleChange}
-              name="email"
               type="email"
+              name="email"
               placeholder="example@example.com"
               value={formValues.email}
+              onChange={handleChange}
               required
               style={inputStyle}
             />
@@ -71,10 +82,10 @@ const Register = () => {
           <div style={inputGroupStyle}>
             <label htmlFor="password" style={labelStyle}>Password</label>
             <input
-              onChange={handleChange}
               type="password"
               name="password"
               value={formValues.password}
+              onChange={handleChange}
               required
               style={inputStyle}
             />
@@ -84,10 +95,10 @@ const Register = () => {
               Confirm Password
             </label>
             <input
-              onChange={handleChange}
               type="password"
               name="confirmPassword"
               value={formValues.confirmPassword}
+              onChange={handleChange}
               required
               style={inputStyle}
             />

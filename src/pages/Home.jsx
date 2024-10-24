@@ -1,20 +1,63 @@
-// Home.jsx
-import React from 'react'
-// import { Link } from 'react-router-dom'
+
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import Slider from "react-slick";
 
 export default function Home({ user }) {
-  // const [isSidebarOpen, setSidebarOpen] = useState(false)
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
-  // const toggleSidebar = () => setSidebarOpen(!isSidebarOpen)
+
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    fade: true,
+  };
 
   return (
     <div className="home-wrapper">
-      {/* Background Video */}
-      <video autoPlay loop muted className="background-video">
-        <source src="/assets/travel-background.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <Slider {...carouselSettings} className="video-carousel">
+        <div>
+          <video autoPlay loop muted className="carousel-video">
+            <source src="/assets/1.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div>
+          <video autoPlay loop muted className="carousel-video">
+            <source src="/assets/2.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div>
+          <video autoPlay loop muted className="carousel-video">
+            <source src="/assets/3.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </Slider>
 
+
+      <div className="content-overlay">
+
+
+        <main className="main-content">
+          <div className="text-container">
+            <h2>Welcome to Travel Trove</h2>
+            <p>
+              Discover and plan your perfect getaway with <strong>Travel Trove</strong>. 
+              Whether you're looking for exotic destinations, comfortable hotels, or hidden 
+              gems, we've got everything you need for a seamless travel experience!
+            </p>
+          </div>
+        </main>
+      </div>
+=======
       {/* Content Overlay */}
       {/* <div className="content-overlay"> */}
       {/* <button className="sidebar-toggle" onClick={toggleSidebar}>
@@ -57,10 +100,6 @@ export default function Home({ user }) {
         </aside> */}
 
       {/* Main Content */}
-      <main className="main-content">
-        <h2>Welcome to Travel Trove</h2>
-        <p>Your ultimate travel planning companion!</p>
-      </main>
     </div>
     // </div>
   )
