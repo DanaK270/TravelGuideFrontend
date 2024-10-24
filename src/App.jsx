@@ -27,12 +27,9 @@ import HotelDetails from './pages/HotelDetails'
 import PlaceDetails from './pages/PlaceDetails'
 import CountryDetails from './pages/CountryDetails'
 import Profile from './pages/Profile'
-<<<<<<< HEAD
 import DisplayUsers from './pages/displayUsers'
 import UpdateUsersRole from './components/UpdateUsersRole'
-=======
 import Bookmarks from './pages/Bookmarks'
->>>>>>> 9307c7f81665568f90f5b82cc01db4d2d2a72a64
 
 const App = () => {
   const [user, setUser] = useState(null)
