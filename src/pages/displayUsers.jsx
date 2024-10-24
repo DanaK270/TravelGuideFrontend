@@ -1,18 +1,9 @@
-import { useNavigate } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
 import { Link } from 'react-router-dom'
 
 const displayUsers = ({}) => {
-  const [userData, SetUserData] = useState([
-    {
-      name: '',
-      email: '',
-      role: '',
-      id: ''
-    }
-  ])
+  const [userData, SetUserData] = useState([])
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -26,14 +17,10 @@ const displayUsers = ({}) => {
     fetchUser()
   }, [])
 
-  // const handleEdit = (e) => {
-  //   navigate(`/Profile/updateusers/${key}`)
-  // }
-
   return (
     <div>
       {userData?.map((users) => (
-        <div key={users.id}>
+        <div key={users._id}>
           <div>
             <h3>name: </h3>
             {users.name}
@@ -46,8 +33,7 @@ const displayUsers = ({}) => {
             <h3>role: </h3>
             {users.role}
           </div>
-          <Link to={`/Profile/UpdateUsers/${users.id}`}>Edit</Link>
-          {/* <button onClick={() => handleEdit({users.id})}>Edit</button> */}
+          <Link to={`/Profile/UpdateUsers/${users._id}`}>Edit</Link>
         </div>
       ))}
     </div>

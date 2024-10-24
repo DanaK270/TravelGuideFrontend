@@ -1,15 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 const UpdateUsersRole = () => {
   const { userId } = useParams()
   const [userData, setUserData] = useState({
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    id: user.id
+    name: '',
+    email: '',
+    role: ''
   })
   const navigate = useNavigate()
 
@@ -17,7 +15,7 @@ const UpdateUsersRole = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/Profile/${userId}`
+          `http://localhost:4000/Profile/UpdateUsers/${userId}`
         )
         setUserData(response.data.user)
       } catch (err) {
@@ -43,14 +41,14 @@ const UpdateUsersRole = () => {
         `http://localhost:4000/Profile/UpdateUsers/${userId}`,
         userData
       )
-      setUser(response.data.user)
+      setUserData(response.data.user)
       navigate(`/`)
     } catch (err) {
       console.error('Error updating profile:', err)
     }
   }
 
-  return user ? (
+  return userData ? (
     <div>
       <h2>Update Profile</h2>
       <form onSubmit={handleSubmit}>
