@@ -7,22 +7,25 @@ const HotelDetails = ({ user }) => {
   const { id } = useParams()
   const [hotel, setHotel] = useState('')
   const [reviewData, setReviewData] = useState({ comment: '', score: 0 })
+  const [bookMsg, setBookMsg] = useState('')
 
   let navigate = useNavigate()
 
   const getHotel = async () => {
     try {
-      const res = await Client.get(`/Hotel/${id}`)
+      const res = await Client.get(`/hotel/${id}`)
       setHotel(res.data)
     } catch (err) {
       console.error('Error fetching hotel:', err)
     }
   }
 
-  const deleteRev = async (delId) => {
+  const deleteRev = async (delId, idx) => {
     try {
       await Client.delete(`/review/delete/${delId}`)
-      getHotel()
+      const hotelCopy = { ...hotel }
+      hotelCopy.reviews.splice(idx, 1)
+      setHotel(hotelCopy)
     } catch (err) {
       console.error('Error deleteing review:', err)
     }
@@ -51,6 +54,9 @@ const HotelDetails = ({ user }) => {
 
       //get hotel again to get the updated data (with the newly added review!)
       getHotel()
+      // const hotelCopy = { ...hotel }
+      // hotelCopy.reviews.splice(idx, 1)
+      // setHotel(hotelCopy)
       setReviewData({ comment: '', score: 0 })
     } catch (err) {
       console.error('Error submitting review:', err)
@@ -76,6 +82,23 @@ const HotelDetails = ({ user }) => {
     navigate(`../edit-hotel/${id}`)
   }
 
+  const handleBookmarkAdd = async () => {
+    // setBookmark({
+    //   user: user.id,
+    //   hotel: id
+    // })
+    try {
+      await Client.post(`/bookmark`, {
+        user: user.id,
+        hotel: id
+      })
+
+      setBookMsg('added to bookmarks')
+    } catch (error) {
+      console.error('Error adding bookmark:', error)
+    }
+  }
+
   return (
     <>
       <div
@@ -93,7 +116,7 @@ const HotelDetails = ({ user }) => {
             justifyContent: 'center'
           }}
         >
-          <h1 style={{ fontSize: '4rem' }}>{hotel.name}</h1>
+          <h1 style={{ fontSize: '3rem' }}>{hotel.name}</h1>
           <br />
           <br />
           {
@@ -136,16 +159,34 @@ const HotelDetails = ({ user }) => {
               </button>
             </>
           )}
+
+          {/* Show Book Button if user role is 'user' */}
+          {user?.role === 'user' && (
+            <>
+              <button
+                style={{
+                  padding: '1rem 2rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                  marginBottom: '2rem'
+                }}
+                onClick={handleBookmarkAdd}
+              >
+                Add to Bookmarks
+              </button>
+              <h3>{bookMsg}</h3>
+            </>
+          )}
         </div>
         <div>
-          <img src={img} alt="img" width="500px" />
+          <img src={img} alt="img" width="600px" />
         </div>
       </div>
 
       <div style={{ marginTop: '5%' }}>
         <ul className="countries-list">
           <h2 style={{ marginLeft: '2%' }}>Reviews</h2>
-          {hotel.reviews?.map((review) => (
+          {hotel.reviews?.map((review, index) => (
             <li
               key={review._id}
               className="country-item"
@@ -163,7 +204,7 @@ const HotelDetails = ({ user }) => {
                 <h4>{review.score} / 5</h4>
                 <button
                   onClick={() => {
-                    deleteRev(review._id)
+                    deleteRev(review._id, index)
                   }}
                 >
                   Delete

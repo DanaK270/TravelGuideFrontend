@@ -1,50 +1,53 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react'
+import Client from '../services/api'
+import { useNavigate } from 'react-router-dom'
 
 const UserBlog = ({ user }) => {
-  const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState({ title: '', content: '' });
-  const userId = localStorage.getItem('userId');
+  const [posts, setPosts] = useState([])
+  const [newPost, setNewPost] = useState({ title: '', content: '' })
+  const userId = localStorage.getItem('userId')
 
-  let navigate = useNavigate();
+  let navigate = useNavigate()
 
   useEffect(() => {
     const fetchPosts = async () => {
-      if (!userId) return;
+      if (!userId) return
 
       try {
-        const response = await axios.get(`http://localhost:4000/api/blogs/${userId}`);
-        setPosts(response.data);
+        const response = await Client.get(`/blogs/${userId}`)
+        setPosts(response.data)
       } catch (error) {
-        console.error('Error fetching posts:', error);
+        console.error('Error fetching posts:', error)
       }
-    };
+    }
 
-    fetchPosts();
-  }, [userId]);
+    fetchPosts()
+  }, [userId])
 
   const handleChange = (e) => {
-    setNewPost({ ...newPost, [e.target.name]: e.target.value });
-  };
+    setNewPost({ ...newPost, [e.target.name]: e.target.value })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      await axios.post('/api/blogs', { ...newPost, userId });
-      setNewPost({ title: '', content: '' });
+      await Client.post('/blogs', { ...newPost, userId })
+      setNewPost({ title: '', content: '' })
 
-      const response = await axios.get(`/api/blogs/${userId}`);
-      setPosts(response.data);
+      const response = await Client.get(`/blogs/${userId}`)
+      setPosts(response.data)
     } catch (error) {
-      console.error('Error adding post:', error);
+      console.error('Error adding post:', error)
     }
-  };
+  }
 
   return user ? (
     <div style={{ maxWidth: '600px', margin: 'auto', textAlign: 'center' }}>
       <h1>Your Blog</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}
+      >
         <input
           type="text"
           name="title"
@@ -62,12 +65,18 @@ const UserBlog = ({ user }) => {
           required
           style={{ ...inputStyle, minHeight: '100px' }}
         />
-        <button type="submit" style={buttonStyle}>Add Post</button>
+        <button type="submit" style={buttonStyle}>
+          Add Post
+        </button>
       </form>
 
       <div className="blog-posts" style={{ marginTop: '20px' }}>
         {posts.map((post, index) => (
-          <div key={index} className="blog-post" style={{ marginBottom: '20px' }}>
+          <div
+            key={index}
+            className="blog-post"
+            style={{ marginBottom: '20px' }}
+          >
             <h3>{post.title}</h3>
             <p>{post.content}</p>
           </div>
@@ -81,15 +90,15 @@ const UserBlog = ({ user }) => {
         Sign In
       </button>
     </div>
-  );
-};
+  )
+}
 
 const inputStyle = {
   padding: '10px',
   borderRadius: '5px',
   border: '1px solid #ccc',
-  fontSize: '16px',
-};
+  fontSize: '16px'
+}
 
 const buttonStyle = {
   marginTop: '20px',
@@ -99,7 +108,7 @@ const buttonStyle = {
   color: 'black',
   border: 'none',
   cursor: 'pointer',
-  fontSize: '16px',
-};
+  fontSize: '16px'
+}
 
-export default UserBlog;
+export default UserBlog
