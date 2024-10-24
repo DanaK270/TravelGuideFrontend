@@ -1,12 +1,11 @@
 // Home.jsx
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import React from 'react'
+// import { Link } from 'react-router-dom'
 
 export default function Home({ user }) {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  // const [isSidebarOpen, setSidebarOpen] = useState(false)
 
-  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+  // const toggleSidebar = () => setSidebarOpen(!isSidebarOpen)
 
   return (
     <div className="home-wrapper">
@@ -17,35 +16,52 @@ export default function Home({ user }) {
       </video>
 
       {/* Content Overlay */}
-      <div className="content-overlay">
-        <button className="sidebar-toggle" onClick={toggleSidebar}>
+      {/* <div className="content-overlay"> */}
+      {/* <button className="sidebar-toggle" onClick={toggleSidebar}>
           ☰
-        </button>
+        </button> */}
 
-        {/* Sidebar */}
-        <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+      {/* Sidebar */}
+      {/* <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
           <div className="add-features">
-            <h3>Add Features</h3>
+            <h2>Add Features</h2>
+            <br />
             <div className="feature-links">
-              <Link to="/add-country" className="feature-link">
+              <Link
+                to="/add-country"
+                className="feature-link"
+                style={{ textDecoration: 'none', fontSize: '20px' }}
+              >
                 Add Country
               </Link>
-              <Link to="/add-hotel" className="feature-link">
+              <br />
+              <br />
+              <Link
+                to="/add-hotel"
+                className="feature-link"
+                style={{ textDecoration: 'none', fontSize: '20px' }}
+              >
                 Add Hotel
               </Link>
-              <Link to="/add-place" className="feature-link">
+              <br />
+              <br />
+              <Link
+                to="/add-place"
+                className="feature-link"
+                style={{ textDecoration: 'none', fontSize: '20px' }}
+              >
                 Add Place
               </Link>
             </div>
           </div>
-        </aside>
+        </aside> */}
 
-        {/* Main Content */}
-        <main className="main-content">
-          <h2>Welcome to Travel Trove</h2>
-          <p>Your ultimate travel planning companion!</p>
-        </main>
-      </div>
+      {/* Main Content */}
+      <main className="main-content">
+        <h2>Welcome to Travel Trove</h2>
+        <p>Your ultimate travel planning companion!</p>
+      </main>
     </div>
-  );
+    // </div>
+  )
 }
