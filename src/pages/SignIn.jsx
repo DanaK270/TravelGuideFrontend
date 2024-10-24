@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SignInUser } from '../services/Auth';
+import { SignInUser, RefreshToken } from '../services/Auth'; // Import Auth functions
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
@@ -15,18 +15,25 @@ const SignIn = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Call the login service
       const user = await SignInUser(formValues);
 
-      setFormValues({ email: '', password: '' });
+      // Store user ID and tokens
       setUser(user);
-
       localStorage.setItem('userId', user.id);
+
       console.log('Login successful. User ID and tokens stored.');
 
+      // Navigate to the community chat page upon success
       navigate('/community-chat');
     } catch (err) {
       console.error('Login failed:', err);
-      setErrorMessage('Wrong credentials, sign in failed!');
+
+      if (err.response && err.response.status === 401) {
+        setErrorMessage('Invalid credentials. Please try again.');
+      } else {
+        setErrorMessage('An error occurred. Please try again later.');
+      }
     }
   };
 
@@ -38,9 +45,7 @@ const SignIn = ({ setUser }) => {
         {errorMessage && <p style={errorStyle}>{errorMessage}</p>}
         <form onSubmit={handleSubmit} style={formStyle}>
           <div style={inputGroupStyle}>
-            <label htmlFor="email" style={labelStyle}>
-              Email
-            </label>
+            <label htmlFor="email" style={labelStyle}>Email</label>
             <input
               type="email"
               name="email"
@@ -52,9 +57,7 @@ const SignIn = ({ setUser }) => {
             />
           </div>
           <div style={inputGroupStyle}>
-            <label htmlFor="password" style={labelStyle}>
-              Password
-            </label>
+            <label htmlFor="password" style={labelStyle}>Password</label>
             <input
               type="password"
               name="password"

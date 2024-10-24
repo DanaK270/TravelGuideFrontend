@@ -1,22 +1,19 @@
-import Axios from 'axios'
+import Axios from 'axios';
 
-export const BASE_URL = 'http://localhost:4000'
+export const BASE_URL = 'http://localhost:4000'; // Ensure this matches your backend URL
 
-const Client = Axios.create({ baseURL: BASE_URL })
+const Client = Axios.create({ baseURL: BASE_URL });
 
-// Intercepts every request axios makes
+// Intercepts every request Axios makes to attach the token
 Client.interceptors.request.use(
   (config) => {
-    // Reads the token in localStorage
-    const token = localStorage.getItem('token')
-    // if the token exists, we set the authorization header
+    const token = localStorage.getItem('token'); // Reads the token from localStorage
     if (token) {
-      config.headers['authorization'] = `Bearer ${token}`
+      config.headers['Authorization'] = `Bearer ${token}`; // Attaches token to headers
     }
-    return config // We return the new config if the token exists or the default config if no token exists.
-    // Provides the token to each request that passes through axios
+    return config;
   },
-  (error) => Promise.reject(error)
-)
+  (error) => Promise.reject(error) // Handle any errors with the request config
+);
 
-export default Client
+export default Client;
